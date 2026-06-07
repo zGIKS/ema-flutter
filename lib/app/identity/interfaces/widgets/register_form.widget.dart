@@ -1,5 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import '../pages/register_person/register_person_cubit.dart';
+import '../pages/register_person/register_person_state.dart';
 
 class DottedBorderPainter extends CustomPainter {
   final Color color;
@@ -50,48 +56,57 @@ class DottedBorderPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class RegisterPersonScreen extends StatefulWidget {
-  const RegisterPersonScreen({super.key});
+class RegisterFormWidget extends StatefulWidget {
+  const RegisterFormWidget({super.key});
 
   @override
-  State<RegisterPersonScreen> createState() => _RegisterPersonScreenState();
+  State<RegisterFormWidget> createState() => _RegisterFormWidgetState();
 }
 
-class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
+class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final _dniController = TextEditingController();
-  
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile != null && mounted) {
+      context.read<RegisterPersonCubit>().imagePicked(pickedFile.path);
+    }
+  }
+
   void _onSubmit() {
     if (_formKey.currentState!.validate()) {
-      // transform form value -> Command
-      // Call domain service
+      context.read<RegisterPersonCubit>().submitForm(_dniController.text);
     }
   }
 
   @override
+  void dispose() {
+    _dniController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          'Register New Person',
-          style: TextStyle(
-            color: Color(0xFF333333),
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        centerTitle: false,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
+    return BlocConsumer<RegisterPersonCubit, RegisterPersonState>(
+      listener: (context, state) {
+        if (state.status == RegisterPersonStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Person registered successfully')),
+          );
+          Navigator.of(context).pop();
+        } else if (state.status == RegisterPersonStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage ?? 'Error occurred')),
+          );
+        }
+      },
+      builder: (context, state) {
+        final isLoading = state.status == RegisterPersonStatus.loading;
+        final imagePath = state.imagePath;
+
+        return Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,20 +144,26 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.face,
-                            size: 45,
-                            color: Color(0xFFA5B4FC),
-                          ),
-                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: imagePath != null
+                            ? Image.file(
+                                File(imagePath),
+                                fit: BoxFit.cover,
+                              )
+                            : const Center(
+                                child: Icon(
+                                  Icons.face,
+                                  size: 45,
+                                  color: Color(0xFFA5B4FC),
+                                ),
+                              ),
                       ),
                       const SizedBox(height: 32),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () => _pickImage(ImageSource.camera),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF0D47A1),
                               foregroundColor: Colors.white,
@@ -157,7 +178,7 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
                           ),
                           const SizedBox(width: 16),
                           OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () => _pickImage(ImageSource.gallery),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: const Color(0xFF1F2937),
                               side: const BorderSide(color: Color(0xFF6B7280), width: 1),
@@ -177,7 +198,7 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
               ),
               const SizedBox(height: 32),
               const Text(
-                'Peruvian DNI',
+                'DNI',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
@@ -188,6 +209,7 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
               TextFormField(
                 controller: _dniController,
                 keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 maxLength: 8,
                 decoration: InputDecoration(
                   hintText: '8-digit document number',
@@ -224,7 +246,7 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton.icon(
-                  onPressed: _onSubmit,
+                  onPressed: isLoading ? null : _onSubmit,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0D47A1),
                     foregroundColor: Colors.white,
@@ -233,17 +255,19 @@ class _RegisterPersonScreenState extends State<RegisterPersonScreen> {
                     ),
                     elevation: 0,
                   ),
-                  icon: const Icon(Icons.save_outlined),
-                  label: const Text(
-                    'Register Person',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  icon: isLoading 
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
+                      : const Icon(Icons.save_outlined),
+                  label: Text(
+                    isLoading ? 'Registering...' : 'Register Person',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

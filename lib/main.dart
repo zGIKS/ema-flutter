@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'app/identity/interfaces/pages/register_person.screen.dart';
+import 'app/identity/interfaces/pages/register_person/register_person.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

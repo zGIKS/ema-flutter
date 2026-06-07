@@ -13,7 +13,8 @@ class PersonHttpGateway implements PersonGateway {
 
   @override
   Future<void> registerPerson(RegisterPersonCommand command) async {
-    final baseUrl = dotenv.env['BACKEND_URL'] ?? 'http://127.0.0.1:8080';
+    final baseUrl = (dotenv.env['API_BASE_URL'] ?? dotenv.env['BACKEND_URL'] ?? 'http://127.0.0.1:8080')
+        .replaceAll(RegExp(r'/$'), '');
     
     final formData = FormData.fromMap({
       'dni': command.dni,
