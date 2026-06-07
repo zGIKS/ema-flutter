@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'register_person_state.dart';
 import '../../../application/internal/commandservices/person_command_service_impl.dart';
-import '../../../domain/model/commands/register_person.command.dart';
+import '../../../interfaces/rest/resources/register_person_form.resource.dart';
+import '../../../interfaces/rest/transform/identity_transform.dart';
 
 class RegisterPersonCubit extends Cubit<RegisterPersonState> {
   final PersonCommandServiceImpl commandService;
@@ -9,26 +10,57 @@ class RegisterPersonCubit extends Cubit<RegisterPersonState> {
   RegisterPersonCubit({required this.commandService}) : super(const RegisterPersonState());
 
   void imagePicked(String imagePath) {
-    emit(state.copyWith(imagePath: imagePath, status: RegisterPersonStatus.initial, errorMessage: null));
+    emit(
+      state.copyWith(
+        imagePath: imagePath,
+        status: RegisterPersonStatus.initial,
+        errorMessage: null,
+        lastResponse: null,
+      ),
+    );
   }
 
   Future<void> submitForm(String dni) async {
     if (state.imagePath == null) {
-      emit(state.copyWith(status: RegisterPersonStatus.failure, errorMessage: 'Please select an identity photo first.'));
+      emit(
+        state.copyWith(
+          status: RegisterPersonStatus.failure,
+          errorMessage: 'Please select an identity photo first.',
+        ),
+      );
       return;
     }
 
     emit(state.copyWith(status: RegisterPersonStatus.loading));
 
     try {
-      final command = RegisterPersonCommand(
-        dni: dni,
-        imagePath: state.imagePath!,
+      final command = toRegisterPersonFaceCommand(
+        RegisterPersonFormResource(
+          dni: dni,
+          imagePath: state.imagePath!,
+        ),
       );
-      await commandService.handleRegisterPerson(command);
-      emit(state.copyWith(status: RegisterPersonStatus.success));
+      final response = await commandService.handleRegisterPersonFace(command);
+      emit(
+        state.copyWith(
+          status: RegisterPersonStatus.success,
+          lastResponse: response,
+          errorMessage: null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(status: RegisterPersonStatus.failure, errorMessage: e.toString()));
+      emit(
+        state.copyWith(
+          status: RegisterPersonStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
+  }
+
+  void clearForm() {
+    emit(
+      const RegisterPersonState(),
+    );
   }
 }

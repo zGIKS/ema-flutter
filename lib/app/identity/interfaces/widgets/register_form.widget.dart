@@ -92,10 +92,15 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     return BlocConsumer<RegisterPersonCubit, RegisterPersonState>(
       listener: (context, state) {
         if (state.status == RegisterPersonStatus.success) {
+          final response = state.lastResponse;
+          final message = response == null
+              ? 'Person registered successfully'
+              : '${response.firstName} ${response.lastName} registered successfully';
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Person registered successfully')),
+            SnackBar(content: Text(message)),
           );
-          Navigator.of(context).pop();
+          _dniController.clear();
+          context.read<RegisterPersonCubit>().clearForm();
         } else if (state.status == RegisterPersonStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage ?? 'Error occurred')),

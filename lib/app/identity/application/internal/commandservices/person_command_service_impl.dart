@@ -1,6 +1,7 @@
 import '../../../domain/model/commands/register_person.command.dart';
 import '../../../domain/services/person.command-service.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
+import '../../../interfaces/rest/resources/register_person_response.resource.dart';
 
 class PersonCommandServiceImpl implements PersonCommandService {
   final PersonGateway gateway;
@@ -8,7 +9,9 @@ class PersonCommandServiceImpl implements PersonCommandService {
   PersonCommandServiceImpl(this.gateway);
 
   @override
-  Future<void> handleRegisterPerson(RegisterPersonCommand command) async {
-    await gateway.registerPerson(command);
+  Future<RegisterPersonResponseResource> handleRegisterPersonFace(
+    RegisterPersonFaceCommand command,
+  ) async {
+    return gateway.registerPersonFace(command);
   }
 }

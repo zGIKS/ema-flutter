@@ -1,16 +1,26 @@
-class RegisterPersonCommand {
-  final String dni;
+import '../valueobjects/peruvian_dni.dart';
+
+class RegisterPersonFaceCommand {
+  final PeruvianDni dni;
   final String imagePath;
 
-  RegisterPersonCommand({
+  const RegisterPersonFaceCommand._({
     required this.dni,
     required this.imagePath,
+  });
+
+  factory RegisterPersonFaceCommand({
+    required PeruvianDni dni,
+    required String imagePath,
   }) {
-    if (dni.length != 8) {
-      throw ArgumentError('DNI must be exactly 8 digits');
+    final normalizedImagePath = imagePath.trim();
+    if (normalizedImagePath.isEmpty) {
+      throw ArgumentError('imagePath cannot be empty');
     }
-    if (imagePath.isEmpty) {
-      throw ArgumentError('Image path cannot be empty');
-    }
+
+    return RegisterPersonFaceCommand._(
+      dni: dni,
+      imagePath: normalizedImagePath,
+    );
   }
 }

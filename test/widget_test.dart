@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ema/main.dart';
 
 void main() {
-  testWidgets('Hello World smoke test', (WidgetTester tester) async {
+  testWidgets('Identity smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our app shows 'Hello World'.
-    expect(find.text('Hello World'), findsOneWidget);
+    // Verify that the identity registration screen renders.
+    expect(find.text('Register New Person'), findsOneWidget);
   });
 }

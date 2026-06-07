@@ -1,5 +1,8 @@
 import '../model/commands/register_person.command.dart';
+import '../../interfaces/rest/resources/register_person_response.resource.dart';
 
 abstract class PersonCommandService {
-  Future<void> handleRegisterPerson(RegisterPersonCommand command);
+  Future<RegisterPersonResponseResource> handleRegisterPersonFace(
+    RegisterPersonFaceCommand command,
+  );
 }

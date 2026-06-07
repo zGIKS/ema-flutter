@@ -5,6 +5,7 @@ import '../../widgets/register_form.widget.dart';
 import 'register_person_cubit.dart';
 import '../../../application/internal/commandservices/person_command_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
+import '../registered_persons/registered_persons.screen.dart';
 
 class RegisterPersonScreen extends StatelessWidget {
   const RegisterPersonScreen({super.key});
@@ -16,10 +17,6 @@ class RegisterPersonScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         title: const Text(
           'Register New Person',
           style: TextStyle(
@@ -29,6 +26,18 @@ class RegisterPersonScreen extends StatelessWidget {
           ),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.people_outline, color: Color(0xFF333333)),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const RegisteredPersonsScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: BlocProvider(
         create: (context) {
