@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'app/identity/interfaces/pages/register_person/register_person.screen.dart';
+import 'app/identity/interfaces/pages/home/home.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,14 +18,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EMA App',
+      title: 'Ema',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0D47A1)),
         useMaterial3: true,
         fontFamily: 'Inter', // Assuming standard font, default material is fine too.
       ),
-      home: const RegisterPersonScreen(),
+      home: const IdentityHomeScreen(),
     );
   }
 }
