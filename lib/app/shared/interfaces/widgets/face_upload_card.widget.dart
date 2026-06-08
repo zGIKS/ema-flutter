@@ -7,12 +7,14 @@ class FaceUploadCardWidget extends StatelessWidget {
   final String? imagePath;
   final VoidCallback onTakePhoto;
   final VoidCallback onGallery;
+  final VoidCallback onClear;
 
   const FaceUploadCardWidget({
     super.key,
     required this.imagePath,
     required this.onTakePhoto,
     required this.onGallery,
+    required this.onClear,
   });
 
   @override
@@ -46,26 +48,53 @@ class FaceUploadCardWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Container(
-                  width: 90,
-                  height: 90,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: imagePath != null
-                      ? Image.file(
-                          File(imagePath!),
-                          fit: BoxFit.cover,
-                        )
-                      : const Center(
-                          child: Icon(
-                            Icons.face,
-                            size: 45,
-                            color: Color(0xFFA5B4FC),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: 90,
+                      height: 90,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: imagePath != null
+                          ? Image.file(
+                              File(imagePath!),
+                              fit: BoxFit.cover,
+                            )
+                          : const Center(
+                              child: Icon(
+                                Icons.face,
+                                size: 45,
+                                color: Color(0xFFA5B4FC),
+                              ),
+                            ),
+                    ),
+                    if (imagePath != null)
+                      Positioned(
+                        right: -8,
+                        top: -8,
+                        child: Material(
+                          color: const Color(0xFF111827),
+                          shape: const CircleBorder(),
+                          child: InkWell(
+                            customBorder: const CircleBorder(),
+                            onTap: onClear,
+                            child: const SizedBox(
+                              width: 28,
+                              height: 28,
+                              child: Icon(
+                                Icons.close,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 32),
                 Row(

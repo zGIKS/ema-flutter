@@ -7,6 +7,7 @@ class IdentifyPersonPhotoSectionWidget extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onTakePhoto;
   final VoidCallback onGallery;
+  final VoidCallback onClear;
 
   const IdentifyPersonPhotoSectionWidget({
     super.key,
@@ -14,6 +15,7 @@ class IdentifyPersonPhotoSectionWidget extends StatelessWidget {
     required this.isLoading,
     required this.onTakePhoto,
     required this.onGallery,
+    required this.onClear,
   });
 
   @override
@@ -22,6 +24,7 @@ class IdentifyPersonPhotoSectionWidget extends StatelessWidget {
       imagePath: imagePath,
       onTakePhoto: onTakePhoto,
       onGallery: onGallery,
+      onClear: onClear,
     );
   }
 }

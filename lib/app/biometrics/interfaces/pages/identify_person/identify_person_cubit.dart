@@ -22,6 +22,10 @@ class IdentifyPersonCubit extends Cubit<IdentifyPersonState> {
     );
   }
 
+  void clearImage() {
+    emit(const IdentifyPersonState());
+  }
+
   Future<void> identifyPerson() async {
     if (state.imagePath == null) {
       emit(

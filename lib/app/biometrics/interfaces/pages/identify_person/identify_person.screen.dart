@@ -11,7 +11,9 @@ import 'identify_person_cubit.dart';
 import 'identify_person_state.dart';
 
 class IdentifyPersonScreen extends StatefulWidget {
-  const IdentifyPersonScreen({super.key});
+  final bool isActive;
+
+  const IdentifyPersonScreen({super.key, required this.isActive});
 
   @override
   State<IdentifyPersonScreen> createState() => _IdentifyPersonScreenState();
@@ -27,6 +29,17 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
     final gateway = BiometricsHttpGateway(dio);
     final queryService = PersonIdentificationQueryServiceImpl(gateway);
     _cubit = IdentifyPersonCubit(queryService: queryService);
+    if (widget.isActive) {
+      _cubit.clearImage();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant IdentifyPersonScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.isActive && widget.isActive) {
+      _cubit.clearImage();
+    }
   }
 
   @override
@@ -90,6 +103,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                         isLoading: isLoading,
                         onTakePhoto: () => _pickImage(ImageSource.camera),
                         onGallery: () => _pickImage(ImageSource.gallery),
+                        onClear: () => _cubit.clearImage(),
                       ),
                       const SizedBox(height: 16),
                       SizedBox(

@@ -31,7 +31,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
   Widget build(BuildContext context) {
     final tabs = [
       const IdentityHomeScreen(),
-      const IdentifyPersonScreen(),
+      IdentifyPersonScreen(isActive: _selectedIndex == 1),
       RegisteredPersonsScreen(isActive: _selectedIndex == 2),
       AuditoryLogsScreen(isActive: _selectedIndex == 3),
     ];

@@ -1,60 +1,10 @@
-import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../shared/interfaces/widgets/face_upload_card.widget.dart';
 import '../pages/register_person/register_person_cubit.dart';
 import '../pages/register_person/register_person_state.dart';
-
-class DottedBorderPainter extends CustomPainter {
-  final Color color;
-  final double strokeWidth;
-  final double dashWidth;
-  final double dashSpace;
-  final double radius;
-
-  DottedBorderPainter({
-    required this.color,
-    this.strokeWidth = 1.0,
-    this.dashWidth = 5.0,
-    this.dashSpace = 3.0,
-    this.radius = 12.0,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke;
-
-    final RRect rrect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      Radius.circular(radius),
-    );
-
-    Path path = Path()..addRRect(rrect);
-    PathMetrics pathMetrics = path.computeMetrics();
-    Path dottedPath = Path();
-
-    for (PathMetric pathMetric in pathMetrics) {
-      double distance = 0.0;
-      while (distance < pathMetric.length) {
-        dottedPath.addPath(
-          pathMetric.extractPath(distance, distance + dashWidth),
-          Offset.zero,
-        );
-        distance += dashWidth + dashSpace;
-      }
-    }
-
-    canvas.drawPath(dottedPath, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
 
 class RegisterFormWidget extends StatefulWidget {
   const RegisterFormWidget({super.key});
@@ -126,80 +76,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 ),
               ),
               const SizedBox(height: 12),
-              CustomPaint(
-                painter: DottedBorderPainter(
-                  color: const Color(0xFFC7D2FE),
-                  dashWidth: 4,
-                  dashSpace: 4,
-                  radius: 12,
-                ),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF4F6FB),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 90,
-                        height: 90,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: imagePath != null
-                            ? Image.file(
-                                File(imagePath),
-                                fit: BoxFit.cover,
-                              )
-                            : const Center(
-                                child: Icon(
-                                  Icons.face,
-                                  size: 45,
-                                  color: Color(0xFFA5B4FC),
-                                ),
-                              ),
-                      ),
-                      const SizedBox(height: 32),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () => _pickImage(ImageSource.camera),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0D47A1),
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              elevation: 0,
-                            ),
-                            icon: const Icon(Icons.camera_alt_outlined, size: 20),
-                            label: const Text('Take Photo', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                          ),
-                          const SizedBox(width: 16),
-                          OutlinedButton.icon(
-                            onPressed: () => _pickImage(ImageSource.gallery),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFF1F2937),
-                              side: const BorderSide(color: Color(0xFF6B7280), width: 1),
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                            ),
-                            icon: const Icon(Icons.image_outlined, size: 20),
-                            label: const Text('Gallery', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              FaceUploadCardWidget(
+                imagePath: imagePath,
+                onTakePhoto: () => _pickImage(ImageSource.camera),
+                onGallery: () => _pickImage(ImageSource.gallery),
+                onClear: () => context.read<RegisterPersonCubit>().clearImage(),
               ),
               const SizedBox(height: 32),
               const Text(

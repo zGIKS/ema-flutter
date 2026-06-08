@@ -21,6 +21,17 @@ class RegisterPersonCubit extends Cubit<RegisterPersonState> {
     );
   }
 
+  void clearImage() {
+    emit(
+      state.copyWith(
+        imagePath: null,
+        status: RegisterPersonStatus.initial,
+        errorMessage: null,
+        lastResponse: null,
+      ),
+    );
+  }
+
   Future<void> submitForm(String dni) async {
     if (state.imagePath == null) {
       emit(
@@ -60,8 +71,6 @@ class RegisterPersonCubit extends Cubit<RegisterPersonState> {
   }
 
   void clearForm() {
-    emit(
-      const RegisterPersonState(),
-    );
+    emit(const RegisterPersonState());
   }
 }
