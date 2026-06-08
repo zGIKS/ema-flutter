@@ -5,12 +5,15 @@ import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
+import '../../../../shared/interfaces/widgets/material_loading.widget.dart';
 
 import 'registered_persons_cubit.dart';
 import 'registered_persons_state.dart';
 
 class RegisteredPersonsScreen extends StatefulWidget {
-  const RegisteredPersonsScreen({super.key});
+  final bool isActive;
+
+  const RegisteredPersonsScreen({super.key, required this.isActive});
 
   @override
   State<RegisteredPersonsScreen> createState() => _RegisteredPersonsScreenState();
@@ -28,7 +31,18 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
     final gateway = PersonHttpGateway(dio);
     final queryService = PersonDirectoryQueryServiceImpl(gateway);
     _cubit = RegisteredPersonsCubit(queryService: queryService);
-    _cubit.loadPersons();
+    if (widget.isActive) {
+      _cubit.loadPersons(clearPage: true);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant RegisteredPersonsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.isActive && widget.isActive) {
+      _searchController.clear();
+      _cubit.loadPersons(clearPage: true);
+    }
   }
 
   void _onSearchChanged(String query) {
@@ -84,10 +98,10 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
               child: BlocBuilder<RegisteredPersonsCubit, RegisteredPersonsState>(
                 builder: (context, state) {
                   if (state.status == RegisteredPersonsStatus.loading || state.status == RegisteredPersonsStatus.initial) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const MaterialLoadingWidget();
                   }
 
-                  if (state.status == RegisteredPersonsStatus.failure) {
+                    if (state.status == RegisteredPersonsStatus.failure) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(24),
@@ -100,7 +114,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () => context.read<RegisteredPersonsCubit>().loadPersons(),
+                              onPressed: () => context.read<RegisteredPersonsCubit>().loadPersons(clearPage: true),
                               child: const Text('Retry'),
                             ),
                           ],
@@ -115,7 +129,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                   }
 
                   return RefreshIndicator(
-                    onRefresh: () => context.read<RegisteredPersonsCubit>().loadPersons(),
+                    onRefresh: () => context.read<RegisteredPersonsCubit>().loadPersons(clearPage: true),
                     child: ListView.separated(
                       padding: const EdgeInsets.only(top: 8, bottom: 88),
                       itemCount: page.items.length,

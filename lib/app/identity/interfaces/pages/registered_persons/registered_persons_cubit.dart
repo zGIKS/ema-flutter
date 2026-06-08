@@ -13,8 +13,15 @@ class RegisteredPersonsCubit extends Cubit<RegisteredPersonsState> {
     int pageSize = 20,
     String? search,
     String? dni,
+    bool clearPage = true,
   }) async {
-    emit(state.copyWith(status: RegisteredPersonsStatus.loading, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: RegisteredPersonsStatus.loading,
+        page: clearPage ? null : state.page,
+        errorMessage: null,
+      ),
+    );
 
     try {
       final query = toGetRegisteredPersonsQuery(

@@ -122,7 +122,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                           result: state.result!,
                           onViewProfile: () {
                             final uuid = state.result!.uuid;
-                            if (uuid != null && uuid.isNotEmpty) {
+                            if (uuid?.isNotEmpty ?? false) {
                               AppRouter.openPersonProfile(context, personId: uuid);
                             }
                           },

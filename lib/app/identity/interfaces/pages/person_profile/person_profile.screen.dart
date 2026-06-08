@@ -6,6 +6,7 @@ import '../../../../core/di/app_dependencies.dart';
 import '../../../application/internal/commandservices/person_profile_command_service_impl.dart';
 import '../../../application/internal/queryservices/person_profile_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
+import '../../../../shared/interfaces/widgets/material_loading.widget.dart';
 import 'person_profile_cubit.dart';
 import 'person_profile_state.dart';
 
@@ -74,7 +75,7 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
           },
           builder: (context, state) {
             if (state.status == PersonProfileStatus.loading || state.status == PersonProfileStatus.initial) {
-              return const Center(child: CircularProgressIndicator());
+              return const MaterialLoadingWidget();
             }
 
             final profile = state.profile;
@@ -170,7 +171,7 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                           borderRadius: BorderRadius.circular(16),
                           child: Container(
                             color: const Color(0xFFF1F5F9),
-                            child: imageUrl == null || imageUrl.isEmpty
+                            child: imageUrl.isEmpty
                                 ? const Icon(Icons.image_outlined, color: Color(0xFF94A3B8))
                                 : Image.network(imageUrl, fit: BoxFit.cover),
                           ),

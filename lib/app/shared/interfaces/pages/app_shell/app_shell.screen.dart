@@ -17,13 +17,6 @@ class AppShellScreen extends StatefulWidget {
 class _AppShellScreenState extends State<AppShellScreen> {
   int _selectedIndex = 0;
 
-  late final List<Widget> _tabs = const [
-    IdentityHomeScreen(),
-    IdentifyPersonScreen(),
-    RegisteredPersonsScreen(),
-    AuditoryLogsScreen(),
-  ];
-
   void _onTap(int index) {
     if (index == _selectedIndex) {
       return;
@@ -31,11 +24,18 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
     setState(() {
       _selectedIndex = index;
-    });
+      });
   }
 
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      const IdentityHomeScreen(),
+      const IdentifyPersonScreen(),
+      RegisteredPersonsScreen(isActive: _selectedIndex == 2),
+      AuditoryLogsScreen(isActive: _selectedIndex == 3),
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FC),
       body: Column(
@@ -44,7 +44,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
-              children: _tabs,
+              children: tabs,
             ),
           ),
           BottomNavigationWidget(

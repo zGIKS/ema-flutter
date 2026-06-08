@@ -5,6 +5,8 @@ class UsageLogResource {
   final String? lastName;
   final String? dni;
   final double? confidence;
+  final int? samplesAdded;
+  final int? totalSamples;
   final int durationMs;
   final String? imageUrl;
   final int usedAt;
@@ -16,6 +18,8 @@ class UsageLogResource {
     this.lastName,
     this.dni,
     this.confidence,
+    this.samplesAdded,
+    this.totalSamples,
     required this.durationMs,
     this.imageUrl,
     required this.usedAt,
@@ -29,6 +33,8 @@ class UsageLogResource {
       lastName: json['last_name'] as String?,
       dni: json['dni'] as String?,
       confidence: (json['confidence'] as num?)?.toDouble(),
+      samplesAdded: json['samples_added'] as int?,
+      totalSamples: json['total_samples'] as int?,
       durationMs: json['duration_ms'] as int? ?? 0,
       imageUrl: json['image_url'] as String?,
       usedAt: json['used_at'] as int? ?? 0,

@@ -17,8 +17,14 @@ class PersonProfileCubit extends Cubit<PersonProfileState> {
     required this.commandService,
   }) : super(const PersonProfileState());
 
-  Future<void> loadProfile() async {
-    emit(state.copyWith(status: PersonProfileStatus.loading, errorMessage: null));
+  Future<void> loadProfile({bool clearProfile = true}) async {
+    emit(
+      state.copyWith(
+        status: PersonProfileStatus.loading,
+        profile: clearProfile ? null : state.profile,
+        errorMessage: null,
+      ),
+    );
 
     try {
       final profile = await queryService.handleGetPersonProfile(

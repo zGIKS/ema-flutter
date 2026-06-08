@@ -8,8 +8,18 @@ class AuditoryLogsCubit extends Cubit<AuditoryLogsState> {
 
   AuditoryLogsCubit({required this.queryService}) : super(const AuditoryLogsState());
 
-  Future<void> loadLogs({int page = 1, int pageSize = 20}) async {
-    emit(state.copyWith(status: AuditoryLogsStatus.loading, errorMessage: null));
+  Future<void> loadLogs({
+    int page = 1,
+    int pageSize = 20,
+    bool clearPage = true,
+  }) async {
+    emit(
+      state.copyWith(
+        status: AuditoryLogsStatus.loading,
+        page: clearPage ? null : state.page,
+        errorMessage: null,
+      ),
+    );
 
     try {
       final query = toGetUsageLogsQuery(page: page, pageSize: pageSize);
