@@ -15,9 +15,13 @@ RegisterPersonFaceCommand toRegisterPersonFaceCommand(
 GetRegisteredPersonsQuery toGetRegisteredPersonsQuery({
   int page = 1,
   int pageSize = 20,
+  String? search,
+  String? dni,
 }) {
   return GetRegisteredPersonsQuery(
     page: page,
     pageSize: pageSize,
+    searchTerm: search,
+    dni: dni,
   );
 }

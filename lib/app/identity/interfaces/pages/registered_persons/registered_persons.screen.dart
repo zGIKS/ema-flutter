@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ class RegisteredPersonsScreen extends StatefulWidget {
 
 class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
   late final RegisteredPersonsCubit _cubit;
+  final _searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -31,8 +34,17 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
     _cubit.loadPersons();
   }
 
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      _cubit.loadPersons(search: query.isNotEmpty ? query : null);
+    });
+  }
+
   @override
   void dispose() {
+    _searchController.dispose();
+    _debounce?.cancel();
     _cubit.close();
     super.dispose();
   }
@@ -46,6 +58,34 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
         body: Column(
           children: [
             const AppHeaderWidget(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: _onSearchChanged,
+                  decoration: const InputDecoration(
+                    hintText: 'Search by DNI or name',
+                    hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
+                    prefixIcon: Icon(Icons.search, color: Color(0xFF94A3B8)),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: BlocBuilder<RegisteredPersonsCubit, RegisteredPersonsState>(
                 builder: (context, state) {

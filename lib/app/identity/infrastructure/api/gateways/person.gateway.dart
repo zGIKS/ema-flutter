@@ -61,6 +61,8 @@ class PersonHttpGateway implements PersonGateway {
         queryParameters: {
           'page': query.page,
           'page_size': query.pageSize,
+          if (query.searchTerm != null) 'search': query.searchTerm,
+          if (query.dni != null) 'dni': query.dni,
         },
       );
 

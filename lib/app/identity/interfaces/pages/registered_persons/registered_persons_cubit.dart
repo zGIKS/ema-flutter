@@ -8,11 +8,21 @@ class RegisteredPersonsCubit extends Cubit<RegisteredPersonsState> {
 
   RegisteredPersonsCubit({required this.queryService}) : super(const RegisteredPersonsState());
 
-  Future<void> loadPersons({int page = 1, int pageSize = 20}) async {
+  Future<void> loadPersons({
+    int page = 1,
+    int pageSize = 20,
+    String? search,
+    String? dni,
+  }) async {
     emit(state.copyWith(status: RegisteredPersonsStatus.loading, errorMessage: null));
 
     try {
-      final query = toGetRegisteredPersonsQuery(page: page, pageSize: pageSize);
+      final query = toGetRegisteredPersonsQuery(
+        page: page,
+        pageSize: pageSize,
+        search: search,
+        dni: dni,
+      );
       final response = await queryService.handleGetRegisteredPersons(query);
       emit(
         state.copyWith(
