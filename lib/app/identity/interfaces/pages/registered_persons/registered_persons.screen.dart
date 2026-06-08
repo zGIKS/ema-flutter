@@ -9,6 +9,8 @@ import '../../../application/internal/queryservices/person_directory_query_servi
 import '../../../infrastructure/api/gateways/person.gateway.dart';
 import '../home/home.screen.dart';
 import '../register_person/register_person.screen.dart';
+import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
+
 import 'registered_persons_cubit.dart';
 import 'registered_persons_state.dart';
 
@@ -195,6 +197,13 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                 if (index == 1) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const IdentifyPersonScreen()),
+                  );
+                  return;
+                }
+
+                if (index == 3) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const AuditoryLogsScreen()),
                   );
                   return;
                 }

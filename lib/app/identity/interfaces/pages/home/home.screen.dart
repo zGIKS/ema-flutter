@@ -4,6 +4,8 @@ import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
 import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../registered_persons/registered_persons.screen.dart';
 
+import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
+
 class IdentityHomeScreen extends StatefulWidget {
   const IdentityHomeScreen({super.key});
 
@@ -27,6 +29,13 @@ class _IdentityHomeScreenState extends State<IdentityHomeScreen> {
     if (index == 2) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const RegisteredPersonsScreen()),
+      );
+      return;
+    }
+
+    if (index == 3) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const AuditoryLogsScreen()),
       );
       return;
     }

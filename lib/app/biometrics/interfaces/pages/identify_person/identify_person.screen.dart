@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
+
 import '../../../../shared/interfaces/widgets/app_header.widget.dart';
 import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
 import '../../../../identity/interfaces/pages/home/home.screen.dart';
@@ -148,6 +150,13 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                 if (index == 2) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const RegisteredPersonsScreen()),
+                  );
+                  return;
+                }
+
+                if (index == 3) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const AuditoryLogsScreen()),
                   );
                   return;
                 }
