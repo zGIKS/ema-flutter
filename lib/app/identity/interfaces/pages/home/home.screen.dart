@@ -1,57 +1,118 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/interfaces/widgets/app_header.widget.dart';
-import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
-import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
-import '../registered_persons/registered_persons.screen.dart';
 
-import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
-
-class IdentityHomeScreen extends StatefulWidget {
+class IdentityHomeScreen extends StatelessWidget {
   const IdentityHomeScreen({super.key});
 
   @override
-  State<IdentityHomeScreen> createState() => _IdentityHomeScreenState();
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Dashboard',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF111827),
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Acceso rapido a las funciones principales.',
+            style: TextStyle(
+              fontSize: 15,
+              height: 1.35,
+              color: Color(0xFF4B5563),
+            ),
+          ),
+          const SizedBox(height: 20),
+          _QuickActionCard(
+            icon: Icons.face_retouching_natural,
+            title: 'Identificar persona',
+            subtitle: 'Abre la camara o sube una foto.',
+          ),
+          const SizedBox(height: 12),
+          _QuickActionCard(
+            icon: Icons.person,
+            title: 'Personas registradas',
+            subtitle: 'Busca, filtra y revisa el directorio.',
+          ),
+          const SizedBox(height: 12),
+          _QuickActionCard(
+            icon: Icons.history,
+            title: 'Historial de uso',
+            subtitle: 'Consulta eventos recientes y resultados.',
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _IdentityHomeScreenState extends State<IdentityHomeScreen> {
-  int _selectedIndex = 0;
+class _QuickActionCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
 
-  void _onBottomNavTap(int index) {
-    setState(() => _selectedIndex = index);
-
-    if (index == 1) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const IdentifyPersonScreen()),
-      );
-      return;
-    }
-
-    if (index == 2) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const RegisteredPersonsScreen()),
-      );
-      return;
-    }
-
-    if (index == 3) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const AuditoryLogsScreen()),
-      );
-      return;
-    }
-  }
+  const _QuickActionCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
-      body: Column(
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x12000000),
+            blurRadius: 18,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
         children: [
-          const AppHeaderWidget(),
-          const Expanded(child: SizedBox.expand()),
-          BottomNavigationWidget(
-            selectedIndex: _selectedIndex,
-            onTap: _onBottomNavTap,
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAF2FF),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(icon, color: const Color(0xFF2563EB), size: 28),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF111827),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF64748B),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

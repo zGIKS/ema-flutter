@@ -2,14 +2,9 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../shared/interfaces/widgets/app_header.widget.dart';
-import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
-import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
-import '../home/home.screen.dart';
 import '../register_person/register_person.screen.dart';
-import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
 
 import 'registered_persons_cubit.dart';
 import 'registered_persons_state.dart';
@@ -55,39 +50,36 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _cubit,
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF8F9FC),
-        body: Column(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
           children: [
-            const AppHeaderWidget(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.02),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: _onSearchChanged,
-                  decoration: const InputDecoration(
-                    hintText: 'Search by DNI or name',
-                    hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF94A3B8)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
+                ],
+              ),
+              child: TextField(
+                controller: _searchController,
+                onChanged: _onSearchChanged,
+                decoration: const InputDecoration(
+                  hintText: 'Search by DNI or name',
+                  hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
+                  prefixIcon: Icon(Icons.search, color: Color(0xFF94A3B8)),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 ),
               ),
             ),
+            const SizedBox(height: 8),
             Expanded(
               child: BlocBuilder<RegisteredPersonsCubit, RegisteredPersonsState>(
                 builder: (context, state) {
@@ -125,7 +117,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                   return RefreshIndicator(
                     onRefresh: () => context.read<RegisteredPersonsCubit>().loadPersons(),
                     child: ListView.separated(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.only(top: 8, bottom: 88),
                       itemCount: page.items.length,
                       separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
@@ -158,7 +150,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 16, bottom: 12),
+              padding: const EdgeInsets.only(right: 0, bottom: 4),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Material(
@@ -183,31 +175,6 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                   ),
                 ),
               ),
-            ),
-            BottomNavigationWidget(
-              selectedIndex: 2,
-              onTap: (index) {
-                if (index == 0) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const IdentityHomeScreen()),
-                  );
-                  return;
-                }
-
-                if (index == 1) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const IdentifyPersonScreen()),
-                  );
-                  return;
-                }
-
-                if (index == 3) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const AuditoryLogsScreen()),
-                  );
-                  return;
-                }
-              },
             ),
           ],
         ),
