@@ -137,7 +137,12 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                             leading: CircleAvatar(
                               backgroundColor: const Color(0xFFE8EEFF),
                               foregroundColor: const Color(0xFF0D47A1),
-                              child: Text(person.firstName.isNotEmpty ? person.firstName[0].toUpperCase() : '?'),
+                              backgroundImage: person.imageUrl != null && person.imageUrl!.isNotEmpty
+                                  ? NetworkImage(person.imageUrl!)
+                                  : null,
+                              child: person.imageUrl != null && person.imageUrl!.isNotEmpty
+                                  ? null
+                                  : Text(person.firstName.isNotEmpty ? person.firstName[0].toUpperCase() : '?'),
                             ),
                             title: Text('${person.firstName} ${person.lastName}'),
                             subtitle: Text('DNI ${person.dni}'),
