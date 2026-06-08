@@ -20,7 +20,7 @@ class IdentityHomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Acceso rapido a las funciones principales.',
+            'Quick access to the main features.',
             style: TextStyle(
               fontSize: 15,
               height: 1.35,
@@ -30,20 +30,20 @@ class IdentityHomeScreen extends StatelessWidget {
           const SizedBox(height: 20),
           _QuickActionCard(
             icon: Icons.face_retouching_natural,
-            title: 'Identificar persona',
-            subtitle: 'Abre la camara o sube una foto.',
+            title: 'Identify Person',
+            subtitle: 'Open the camera or upload a photo.',
           ),
           const SizedBox(height: 12),
           _QuickActionCard(
             icon: Icons.person,
-            title: 'Personas registradas',
-            subtitle: 'Busca, filtra y revisa el directorio.',
+            title: 'Registered People',
+            subtitle: 'Search, filter, and browse the directory.',
           ),
           const SizedBox(height: 12),
           _QuickActionCard(
             icon: Icons.history,
-            title: 'Historial de uso',
-            subtitle: 'Consulta eventos recientes y resultados.',
+            title: 'Usage History',
+            subtitle: 'Review recent events and results.',
           ),
         ],
       ),
