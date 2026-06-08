@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../shared/interfaces/widgets/ema_app_header.widget.dart';
 import '../../../../shared/interfaces/widgets/ema_bottom_navigation.widget.dart';
-import '../register_person/register_person.screen.dart';
+import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../registered_persons/registered_persons.screen.dart';
 
 class IdentityHomeScreen extends StatefulWidget {
@@ -18,14 +18,14 @@ class _IdentityHomeScreenState extends State<IdentityHomeScreen> {
     setState(() => _selectedIndex = index);
 
     if (index == 1) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const RegisterPersonScreen()),
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const IdentifyPersonScreen()),
       );
       return;
     }
 
     if (index == 2) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const RegisteredPersonsScreen()),
       );
       return;

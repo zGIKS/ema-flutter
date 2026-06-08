@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../shared/interfaces/widgets/ema_app_header.widget.dart';
 import '../../../../shared/interfaces/widgets/ema_bottom_navigation.widget.dart';
+import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
 import '../home/home.screen.dart';
@@ -148,7 +149,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
 
                 if (index == 1) {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const RegisterPersonScreen()),
+                    MaterialPageRoute(builder: (_) => const IdentifyPersonScreen()),
                   );
                   return;
                 }
