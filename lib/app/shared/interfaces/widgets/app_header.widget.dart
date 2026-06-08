@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EmaAppHeaderWidget extends StatelessWidget {
-  const EmaAppHeaderWidget({super.key});
+class AppHeaderWidget extends StatelessWidget {
+  const AppHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,12 +3,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class EmaFaceUploadCardWidget extends StatelessWidget {
+class FaceUploadCardWidget extends StatelessWidget {
   final String? imagePath;
   final VoidCallback onTakePhoto;
   final VoidCallback onGallery;
 
-  const EmaFaceUploadCardWidget({
+  const FaceUploadCardWidget({
     super.key,
     required this.imagePath,
     required this.onTakePhoto,

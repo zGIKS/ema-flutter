@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/interfaces/widgets/ema_app_header.widget.dart';
-import '../../../../shared/interfaces/widgets/ema_bottom_navigation.widget.dart';
+import '../../../../shared/interfaces/widgets/app_header.widget.dart';
+import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
 import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../registered_persons/registered_persons.screen.dart';
 
@@ -38,9 +38,9 @@ class _IdentityHomeScreenState extends State<IdentityHomeScreen> {
       backgroundColor: const Color(0xFFF8F9FC),
       body: Column(
         children: [
-          const EmaAppHeaderWidget(),
+          const AppHeaderWidget(),
           const Expanded(child: SizedBox.expand()),
-          EmaBottomNavigationWidget(
+          BottomNavigationWidget(
             selectedIndex: _selectedIndex,
             onTap: _onBottomNavTap,
           ),

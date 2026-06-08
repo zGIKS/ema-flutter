@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/interfaces/widgets/ema_face_upload_card.widget.dart';
+import '../../../shared/interfaces/widgets/face_upload_card.widget.dart';
 
 class IdentifyPersonPhotoSectionWidget extends StatelessWidget {
   final String? imagePath;
@@ -18,7 +18,7 @@ class IdentifyPersonPhotoSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EmaFaceUploadCardWidget(
+    return FaceUploadCardWidget(
       imagePath: imagePath,
       onTakePhoto: onTakePhoto,
       onGallery: onGallery,

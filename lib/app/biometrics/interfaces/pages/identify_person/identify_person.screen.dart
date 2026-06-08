@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../shared/interfaces/widgets/ema_app_header.widget.dart';
-import '../../../../shared/interfaces/widgets/ema_bottom_navigation.widget.dart';
+import '../../../../shared/interfaces/widgets/app_header.widget.dart';
+import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
 import '../../../../identity/interfaces/pages/home/home.screen.dart';
 import '../../../../identity/interfaces/pages/registered_persons/registered_persons.screen.dart';
 import '../../../application/internal/queryservices/person_identification_query_service_impl.dart';
@@ -55,7 +55,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
         backgroundColor: const Color(0xFFF8F9FC),
         body: Column(
           children: [
-            const EmaAppHeaderWidget(),
+            const AppHeaderWidget(),
             Expanded(
               child: BlocConsumer<IdentifyPersonCubit, IdentifyPersonState>(
                 listener: (context, state) {
@@ -135,7 +135,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                 },
               ),
             ),
-            EmaBottomNavigationWidget(
+            BottomNavigationWidget(
               selectedIndex: 1,
               onTap: (index) {
                 if (index == 0) {

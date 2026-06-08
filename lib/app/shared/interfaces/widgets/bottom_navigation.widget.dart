@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EmaBottomNavigationWidget extends StatelessWidget {
+class BottomNavigationWidget extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTap;
 
-  const EmaBottomNavigationWidget({
+  const BottomNavigationWidget({
     super.key,
     required this.selectedIndex,
     required this.onTap,

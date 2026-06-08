@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../shared/interfaces/widgets/ema_app_header.widget.dart';
-import '../../../../shared/interfaces/widgets/ema_bottom_navigation.widget.dart';
+import '../../../../shared/interfaces/widgets/app_header.widget.dart';
+import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
 import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
@@ -45,7 +45,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
         backgroundColor: const Color(0xFFF8F9FC),
         body: Column(
           children: [
-            const EmaAppHeaderWidget(),
+            const AppHeaderWidget(),
             Expanded(
               child: BlocBuilder<RegisteredPersonsCubit, RegisteredPersonsState>(
                 builder: (context, state) {
@@ -137,7 +137,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                 ),
               ),
             ),
-            EmaBottomNavigationWidget(
+            BottomNavigationWidget(
               selectedIndex: 2,
               onTap: (index) {
                 if (index == 0) {
