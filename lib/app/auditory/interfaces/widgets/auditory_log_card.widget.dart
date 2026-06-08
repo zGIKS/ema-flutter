@@ -14,7 +14,33 @@ class AuditoryLogCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isIdentified = log.personId != null;
+    final isFaceSampleUpload = log.operation == 'add_face_samples';
+    final isRegister = log.operation == 'register';
+    final isIdentified = log.personId != null && !isFaceSampleUpload && !isRegister;
+
+    final badgeLabel = isFaceSampleUpload
+        ? 'PHOTOS ADDED'
+        : isRegister
+            ? 'REGISTERED'
+            : isIdentified
+                ? 'IDENTIFIED'
+                : 'UNKNOWN';
+
+    final badgeColor = isFaceSampleUpload
+        ? const Color(0xFFEDE9FE)
+        : isRegister
+            ? const Color(0xFFE0F2FE)
+            : isIdentified
+                ? const Color(0xFFE0F2FE)
+                : const Color(0xFFFEE2E2);
+
+    final badgeTextColor = isFaceSampleUpload
+        ? const Color(0xFF7C3AED)
+        : isRegister
+            ? const Color(0xFF0369A1)
+            : isIdentified
+                ? const Color(0xFF0369A1)
+                : const Color(0xFFB91C1C);
 
     return Card(
       elevation: 0,
@@ -56,15 +82,13 @@ class AuditoryLogCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isIdentified
-                        ? '${log.firstName ?? ''} ${log.lastName ?? ''}'.trim().isEmpty
-                            ? 'User ID: ${log.personId}'
-                            : '${log.firstName} ${log.lastName}'
-                        : 'Unauthorized/Not Detected',
+                    (log.firstName ?? '').trim().isEmpty && (log.lastName ?? '').trim().isEmpty
+                        ? 'User ID: ${log.personId ?? '-'}'
+                        : '${log.firstName ?? ''} ${log.lastName ?? ''}'.trim(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: isIdentified ? const Color(0xFF1E293B) : const Color(0xFFB91C1C),
+                      color: isFaceSampleUpload ? const Color(0xFF6D28D9) : const Color(0xFF1E293B),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -104,7 +128,7 @@ class AuditoryLogCardWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (log.samplesAdded != null || log.totalSamples != null) ...[
+                  if (isFaceSampleUpload || log.samplesAdded != null || log.totalSamples != null) ...[
                     const SizedBox(height: 6),
                     Text(
                       'Added ${log.samplesAdded ?? 0} photos | Total ${log.totalSamples ?? 0}',
@@ -129,15 +153,15 @@ class AuditoryLogCardWidget extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: isIdentified ? const Color(0xFFE0F2FE) : const Color(0xFFFEE2E2),
+                          color: badgeColor,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          isIdentified ? 'IDENTIFIED' : 'UNKNOWN',
+                          badgeLabel,
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
-                            color: isIdentified ? const Color(0xFF0369A1) : const Color(0xFFB91C1C),
+                            color: badgeTextColor,
                           ),
                         ),
                       ),
