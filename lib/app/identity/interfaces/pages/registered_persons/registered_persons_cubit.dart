@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/network/app_dio.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../interfaces/rest/transform/identity_transform.dart';
 import 'registered_persons_state.dart';
@@ -42,7 +43,7 @@ class RegisteredPersonsCubit extends Cubit<RegisteredPersonsState> {
       emit(
         state.copyWith(
           status: RegisteredPersonsStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to load registered persons'),
         ),
       );
     }

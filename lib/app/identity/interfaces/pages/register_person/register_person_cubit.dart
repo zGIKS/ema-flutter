@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/network/app_dio.dart';
 import 'register_person_state.dart';
 import '../../../application/internal/commandservices/person_command_service_impl.dart';
 import '../../../interfaces/rest/resources/register_person_form.resource.dart';
@@ -52,7 +53,7 @@ class RegisterPersonCubit extends Cubit<RegisterPersonState> {
       emit(
         state.copyWith(
           status: RegisterPersonStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to register person'),
         ),
       );
     }

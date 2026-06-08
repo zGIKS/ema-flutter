@@ -32,7 +32,7 @@ class BiometricsHttpGateway implements BiometricsGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to identify person'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to identify person'));
     }
   }
 }

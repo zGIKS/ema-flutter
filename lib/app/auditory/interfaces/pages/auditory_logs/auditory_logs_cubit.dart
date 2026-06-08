@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/network/app_dio.dart';
 import '../../../application/internal/queryservices/auditory_query_service_impl.dart';
 import '../../../interfaces/rest/transform/auditory_transform.dart';
 import 'auditory_logs_state.dart';
@@ -35,7 +36,7 @@ class AuditoryLogsCubit extends Cubit<AuditoryLogsState> {
       emit(
         state.copyWith(
           status: AuditoryLogsStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to load usage logs'),
         ),
       );
     }

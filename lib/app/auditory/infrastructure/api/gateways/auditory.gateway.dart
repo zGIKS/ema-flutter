@@ -27,7 +27,7 @@ class AuditoryHttpGateway implements AuditoryGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to load usage logs'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to load usage logs'));
     }
   }
 }

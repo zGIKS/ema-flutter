@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/network/app_dio.dart';
 import '../../../application/internal/commandservices/person_profile_command_service_impl.dart';
 import '../../../application/internal/queryservices/person_profile_query_service_impl.dart';
 import '../../../domain/model/commands/add_person_face_sample.command.dart';
@@ -32,7 +33,12 @@ class PersonProfileCubit extends Cubit<PersonProfileState> {
       );
       emit(state.copyWith(status: PersonProfileStatus.loaded, profile: profile, errorMessage: null));
     } catch (e) {
-      emit(state.copyWith(status: PersonProfileStatus.failure, errorMessage: e.toString()));
+      emit(
+        state.copyWith(
+          status: PersonProfileStatus.failure,
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to load person profile'),
+        ),
+      );
     }
   }
 
@@ -45,7 +51,12 @@ class PersonProfileCubit extends Cubit<PersonProfileState> {
       );
       await loadProfile();
     } catch (e) {
-      emit(state.copyWith(status: PersonProfileStatus.failure, errorMessage: e.toString()));
+      emit(
+        state.copyWith(
+          status: PersonProfileStatus.failure,
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to add photo'),
+        ),
+      );
     }
   }
 }

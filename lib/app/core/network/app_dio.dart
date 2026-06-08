@@ -15,6 +15,15 @@ Dio createAppDio() {
 }
 
 String readApiErrorMessage(DioException error, String fallbackMessage) {
+  final type = error.type;
+  if (type == DioExceptionType.connectionError || type == DioExceptionType.connectionTimeout) {
+    return 'Connection error. Please check your internet and try again.';
+  }
+
+  if (type == DioExceptionType.receiveTimeout || type == DioExceptionType.sendTimeout) {
+    return 'Request timed out. Please try again.';
+  }
+
   final data = error.response?.data;
   if (data is Map) {
     final detail = data['detail'];
@@ -26,6 +35,23 @@ String readApiErrorMessage(DioException error, String fallbackMessage) {
   final message = error.message;
   if (message != null && message.trim().isNotEmpty) {
     return message;
+  }
+
+  return fallbackMessage;
+}
+
+String readFriendlyErrorMessage(Object error, {String fallbackMessage = 'Something went wrong'}) {
+  if (error is DioException) {
+    return readApiErrorMessage(error, fallbackMessage);
+  }
+
+  final text = error.toString();
+  if (text.startsWith('Exception: ')) {
+    return text.replaceFirst('Exception: ', '').trim();
+  }
+
+  if (text.trim().isNotEmpty) {
+    return text;
   }
 
   return fallbackMessage;

@@ -54,7 +54,7 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to register person'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to register person'));
     }
   }
 
@@ -77,7 +77,7 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to load registered persons'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to load registered persons'));
     }
   }
 
@@ -92,7 +92,7 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to load person profile'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to load person profile'));
     }
   }
 
@@ -117,7 +117,7 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(readApiErrorMessage(e, 'Failed to add face sample'));
+      throw Exception(readFriendlyErrorMessage(e, fallbackMessage: 'Failed to add face sample'));
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/network/app_dio.dart';
 import '../../../application/internal/queryservices/person_identification_query_service_impl.dart';
 import '../../rest/resources/identify_person_form.resource.dart';
 import '../../rest/transform/biometrics_transform.dart';
@@ -50,7 +51,7 @@ class IdentifyPersonCubit extends Cubit<IdentifyPersonState> {
       emit(
         state.copyWith(
           status: IdentifyPersonStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to identify person'),
         ),
       );
     }
