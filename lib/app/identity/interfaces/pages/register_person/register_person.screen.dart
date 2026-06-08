@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
+import '../../../../core/di/app_dependencies.dart';
 import '../../widgets/register_form.widget.dart';
 import 'register_person_cubit.dart';
 import '../../../application/internal/commandservices/person_command_service_impl.dart';
@@ -28,7 +28,7 @@ class RegisterPersonScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) {
-          final dio = Dio();
+          final dio = AppDependencies.createDio();
           final gateway = PersonHttpGateway(dio);
           final service = PersonCommandServiceImpl(gateway);
           return RegisterPersonCubit(commandService: service);

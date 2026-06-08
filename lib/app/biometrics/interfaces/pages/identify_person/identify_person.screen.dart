@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/di/app_dependencies.dart';
+import '../../../../core/routing/app_router.dart';
 import '../../../application/internal/queryservices/person_identification_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/biometrics.gateway.dart';
 import '../../widgets/identify_person_photo_section.widget.dart';
@@ -22,7 +23,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
   @override
   void initState() {
     super.initState();
-    final dio = Dio();
+    final dio = AppDependencies.createDio();
     final gateway = BiometricsHttpGateway(dio);
     final queryService = PersonIdentificationQueryServiceImpl(gateway);
     _cubit = IdentifyPersonCubit(queryService: queryService);
@@ -119,7 +120,12 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                       if (state.result != null)
                         IdentifyPersonResultCardWidget(
                           result: state.result!,
-                          onViewProfile: () {},
+                          onViewProfile: () {
+                            final uuid = state.result!.uuid;
+                            if (uuid != null && uuid.isNotEmpty) {
+                              AppRouter.openPersonProfile(context, personId: uuid);
+                            }
+                          },
                         ),
                     ],
                   ),

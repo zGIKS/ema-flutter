@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/app_dependencies.dart';
 import '../../../application/internal/queryservices/auditory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/auditory.gateway.dart';
 import 'auditory_logs_cubit.dart';
@@ -19,7 +19,7 @@ class _AuditoryLogsScreenState extends State<AuditoryLogsScreen> {
   @override
   void initState() {
     super.initState();
-    final dio = Dio();
+    final dio = AppDependencies.createDio();
     final gateway = AuditoryHttpGateway(dio);
     final queryService = AuditoryQueryServiceImpl(gateway);
     _cubit = AuditoryLogsCubit(queryService: queryService);

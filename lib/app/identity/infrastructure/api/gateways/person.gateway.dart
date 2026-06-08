@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../domain/model/commands/add_person_face_sample.command.dart';
 import '../../../domain/model/commands/register_person.command.dart';
+import '../../../domain/model/queries/get_person_profile.query.dart';
 import '../../../domain/model/queries/get_registered_persons.query.dart';
+import '../../../../core/network/app_dio.dart';
+import '../../../interfaces/rest/resources/add_face_samples_response.resource.dart';
 import '../../../interfaces/rest/resources/register_person_response.resource.dart';
+import '../../../interfaces/rest/resources/registered_person_detail.resource.dart';
 import '../../../interfaces/rest/resources/registered_persons_page.resource.dart';
 
 abstract class PersonGateway {
@@ -13,17 +17,20 @@ abstract class PersonGateway {
   Future<RegisteredPersonsPageResource> getRegisteredPersons(
     GetRegisteredPersonsQuery query,
   );
+
+  Future<RegisteredPersonDetailResource> getPersonProfile(
+    GetPersonProfileQuery query,
+  );
+
+  Future<AddFaceSamplesResponseResource> addPersonFaceSample(
+    AddPersonFaceSampleCommand command,
+  );
 }
 
 class PersonHttpGateway implements PersonGateway {
   final Dio dio;
 
   PersonHttpGateway(this.dio);
-
-  String get _baseUrl {
-    return (dotenv.env['API_BASE_URL'] ?? dotenv.env['BACKEND_URL'] ?? 'http://10.0.2.2:8080')
-        .replaceAll(RegExp(r'/$'), '');
-  }
 
   @override
   Future<RegisterPersonResponseResource> registerPersonFace(
@@ -39,7 +46,7 @@ class PersonHttpGateway implements PersonGateway {
 
     try {
       final response = await dio.post(
-        '$_baseUrl/api/v1/identity/register',
+        '/api/v1/identity/register',
         data: formData,
       );
 
@@ -47,7 +54,7 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(_readErrorMessage(e, 'Failed to register person'));
+      throw Exception(readApiErrorMessage(e, 'Failed to register person'));
     }
   }
 
@@ -57,7 +64,7 @@ class PersonHttpGateway implements PersonGateway {
   ) async {
     try {
       final response = await dio.get(
-        '$_baseUrl/api/v1/identity/persons',
+        '/api/v1/identity/persons',
         queryParameters: {
           'page': query.page,
           'page_size': query.pageSize,
@@ -70,24 +77,47 @@ class PersonHttpGateway implements PersonGateway {
         Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
-      throw Exception(_readErrorMessage(e, 'Failed to load registered persons'));
+      throw Exception(readApiErrorMessage(e, 'Failed to load registered persons'));
     }
   }
 
-  String _readErrorMessage(DioException error, String fallbackMessage) {
-    final data = error.response?.data;
-    if (data is Map) {
-      final detail = data['detail'];
-      if (detail is String && detail.trim().isNotEmpty) {
-        return detail;
-      }
-    }
+  @override
+  Future<RegisteredPersonDetailResource> getPersonProfile(
+    GetPersonProfileQuery query,
+  ) async {
+    try {
+      final response = await dio.get('/api/v1/identity/persons/${query.personId}');
 
-    final message = error.message;
-    if (message != null && message.trim().isNotEmpty) {
-      return message;
+      return RegisteredPersonDetailResource.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      throw Exception(readApiErrorMessage(e, 'Failed to load person profile'));
     }
+  }
 
-    return fallbackMessage;
+  @override
+  Future<AddFaceSamplesResponseResource> addPersonFaceSample(
+    AddPersonFaceSampleCommand command,
+  ) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        command.imagePath,
+        filename: 'sample.jpg',
+      ),
+    });
+
+    try {
+      final response = await dio.post(
+        '/api/v1/identity/persons/${command.personId}/samples',
+        data: formData,
+      );
+
+      return AddFaceSamplesResponseResource.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      throw Exception(readApiErrorMessage(e, 'Failed to add face sample'));
+    }
   }
 }

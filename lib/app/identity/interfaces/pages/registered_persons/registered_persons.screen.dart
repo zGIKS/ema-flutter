@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/app_dependencies.dart';
+import '../../../../core/routing/app_router.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
-import '../register_person/register_person.screen.dart';
 
 import 'registered_persons_cubit.dart';
 import 'registered_persons_state.dart';
@@ -24,7 +24,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
   @override
   void initState() {
     super.initState();
-    final dio = Dio();
+    final dio = AppDependencies.createDio();
     final gateway = PersonHttpGateway(dio);
     final queryService = PersonDirectoryQueryServiceImpl(gateway);
     _cubit = RegisteredPersonsCubit(queryService: queryService);
@@ -141,6 +141,10 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                             title: Text('${person.firstName} ${person.lastName}'),
                             subtitle: Text('DNI ${person.dni}'),
                             trailing: const Icon(Icons.chevron_right),
+                            onTap: () => AppRouter.openPersonProfile(
+                              context,
+                              personId: person.uuid,
+                            ),
                           ),
                         );
                       },
@@ -159,9 +163,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(18),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const RegisterPersonScreen()),
-                      );
+                      AppRouter.openRegisterPerson(context);
                     },
                     child: const SizedBox(
                       width: 64,
