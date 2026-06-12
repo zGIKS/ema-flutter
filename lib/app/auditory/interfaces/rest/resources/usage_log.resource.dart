@@ -33,11 +33,24 @@ class UsageLogResource {
       lastName: json['last_name'] as String?,
       dni: json['dni'] as String?,
       confidence: (json['confidence'] as num?)?.toDouble(),
-      samplesAdded: json['samples_added'] as int?,
-      totalSamples: json['total_samples'] as int?,
-      durationMs: json['duration_ms'] as int? ?? 0,
+      samplesAdded: _toInt(json['samples_added']),
+      totalSamples: _toInt(json['total_samples']),
+      durationMs: _toInt(json['duration_ms']) ?? 0,
       imageUrl: json['image_url'] as String?,
-      usedAt: json['used_at'] as int? ?? 0,
+      usedAt: _toInt(json['used_at']) ?? 0,
     );
   }
+}
+
+int? _toInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  if (value is String) {
+    final parsedInt = int.tryParse(value);
+    if (parsedInt != null) return parsedInt;
+    final parsedDate = DateTime.tryParse(value);
+    if (parsedDate != null) return parsedDate.millisecondsSinceEpoch ~/ 1000;
+  }
+  return null;
 }

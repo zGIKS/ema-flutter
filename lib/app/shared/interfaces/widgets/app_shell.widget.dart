@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/interfaces/widgets/bottom_navigation.widget.dart';
-import '../../../../identity/interfaces/pages/home/home.screen.dart';
-import '../../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
-import '../../../../identity/interfaces/pages/registered_persons/registered_persons.screen.dart';
-import '../../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
-import '../sign_in/sign_in.screen.dart';
-import '../../../application/internal/session_manager.dart';
+import '../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
+import '../../../iam/interfaces/pages/users/users.screen.dart';
+import '../../../identity/interfaces/pages/registered_persons/registered_persons.screen.dart';
+import '../../../auditory/interfaces/pages/auditory_logs/auditory_logs.screen.dart';
+import '../../../iam/application/internal/session_manager.dart';
+import '../../../iam/interfaces/pages/sign_in/sign_in.screen.dart';
+import 'bottom_navigation.widget.dart';
 
-class AppShellScreen extends StatefulWidget {
-  const AppShellScreen({super.key});
+class AppShellWidget extends StatefulWidget {
+  const AppShellWidget({super.key});
 
   @override
-  State<AppShellScreen> createState() => _AppShellScreenState();
+  State<AppShellWidget> createState() => _AppShellWidgetState();
 }
 
-class _AppShellScreenState extends State<AppShellScreen> {
+class _AppShellWidgetState extends State<AppShellWidget> {
   int _selectedIndex = 0;
 
   void _onTap(int index) {
@@ -61,7 +61,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      const IdentityHomeScreen(),
+      const UsersScreen(),
       IdentifyPersonScreen(isActive: _selectedIndex == 1),
       RegisteredPersonsScreen(isActive: _selectedIndex == 2),
       AuditoryLogsScreen(isActive: _selectedIndex == 3),
@@ -71,7 +71,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
       backgroundColor: const Color(0xFFF8F9FC),
       body: Column(
         children: [
-          // Custom header for authenticated IAM Shell
           SafeArea(
             bottom: false,
             child: Padding(

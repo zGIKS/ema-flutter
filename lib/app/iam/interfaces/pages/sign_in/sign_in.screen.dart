@@ -5,7 +5,7 @@ import '../../../infrastructure/api/gateways/iam.gateway.dart';
 import '../../../application/internal/commandservices/iam_command_service_impl.dart';
 import 'sign_in_cubit.dart';
 import 'sign_in_state.dart';
-import '../app_shell/app_shell.screen.dart';
+import '../../../../shared/interfaces/widgets/app_shell.widget.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -66,7 +66,7 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
           );
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (_) => const AppShellScreen(),
+              builder: (_) => const AppShellWidget(),
             ),
           );
         } else if (state.status == SignInStatus.failure) {

@@ -21,9 +21,17 @@ class UsageLogsPageResource {
 
     return UsageLogsPageResource(
       items: rawItems,
-      page: (json['page'] as int?) ?? 1,
-      pageSize: (json['page_size'] as int?) ?? 20,
-      total: (json['total'] as int?) ?? 0,
+      page: _toInt(json['page']) ?? 1,
+      pageSize: _toInt(json['page_size']) ?? 20,
+      total: _toInt(json['total']) ?? 0,
     );
   }
+}
+
+int? _toInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  if (value is String) return int.tryParse(value);
+  return null;
 }
