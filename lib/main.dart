@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'app/shared/interfaces/pages/app_shell/app_shell.screen.dart';
+import 'app/iam/interfaces/pages/sign_in/sign_in.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         );
       },
-      home: const AppShellScreen(),
+      home: const SignInScreen(),
     );
   }
 }

@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 
 import '../constants/app_constants.dart';
 
+import '../../iam/application/internal/session_manager.dart';
+
 Dio createAppDio() {
-  return Dio(
+  final dio = Dio(
     BaseOptions(
       baseUrl: AppConstants.apiBaseUrl,
       connectTimeout: AppConstants.httpConnectTimeout,
@@ -12,6 +14,20 @@ Dio createAppDio() {
       responseType: ResponseType.json,
     ),
   );
+
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) {
+        final token = SessionManager.token;
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        return handler.next(options);
+      },
+    ),
+  );
+
+  return dio;
 }
 
 String readApiErrorMessage(DioException error, String fallbackMessage) {
