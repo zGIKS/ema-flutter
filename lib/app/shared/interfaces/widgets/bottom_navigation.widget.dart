@@ -13,7 +13,7 @@ class BottomNavigationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <_EmaBottomNavigationItem>[
-      const _EmaBottomNavigationItem(label: 'Home', icon: Icons.home),
+      const _EmaBottomNavigationItem(label: 'Users', icon: Icons.people),
       const _EmaBottomNavigationItem(label: 'Identify', icon: Icons.face_retouching_natural),
       const _EmaBottomNavigationItem(label: 'People', icon: Icons.person),
       const _EmaBottomNavigationItem(label: 'History', icon: Icons.history),
