@@ -2,11 +2,13 @@ class AuthenticatedUserResource {
   final String accessToken;
   final String userId;
   final String username;
+  final String role;
 
   const AuthenticatedUserResource({
-    required this.accessToken,
+    this.accessToken = '',
     required this.userId,
     required this.username,
+    this.role = '',
   });
 
   factory AuthenticatedUserResource.fromJson(Map<String, dynamic> json) {
@@ -14,6 +16,7 @@ class AuthenticatedUserResource {
       accessToken: (json['access_token'] as String?) ?? '',
       userId: (json['user_id'] as String?) ?? '',
       username: (json['username'] as String?) ?? '',
+      role: (json['role'] as String?) ?? '',
     );
   }
 }

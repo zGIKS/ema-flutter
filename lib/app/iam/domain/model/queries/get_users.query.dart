@@ -1,0 +1,3 @@
+class GetUsersQuery {
+  const GetUsersQuery();
+}
