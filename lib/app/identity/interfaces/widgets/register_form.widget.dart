@@ -66,16 +66,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'IDENTITY PHOTO',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4B5563),
-                  letterSpacing: 1.0,
-                ),
-              ),
-              const SizedBox(height: 12),
+
               FaceUploadCardWidget(
                 imagePath: imagePath,
                 onTakePhoto: () => _pickImage(ImageSource.camera),
