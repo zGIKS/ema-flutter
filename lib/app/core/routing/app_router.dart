@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../iam/interfaces/pages/users/create_user.screen.dart';
+import '../../iam/interfaces/pages/create_user/create_user.screen.dart';
 import '../../identity/interfaces/pages/person_profile/person_profile.screen.dart';
 import '../../identity/interfaces/pages/register_person/register_person.screen.dart';
 

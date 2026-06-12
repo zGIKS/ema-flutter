@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../pages/users/create_user_cubit.dart';
-import '../pages/users/create_user_state.dart';
+import '../pages/create_user/create_user_cubit.dart';
+import '../pages/create_user/create_user_state.dart';
 
 class UserFormWidget extends StatefulWidget {
   const UserFormWidget({super.key});

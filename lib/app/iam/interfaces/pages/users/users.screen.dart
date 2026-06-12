@@ -93,69 +93,6 @@ class _UsersScreenState extends State<UsersScreen> {
     }
   }
 
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x22000000),
-            blurRadius: 18,
-            offset: Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Users',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Manage app accounts and roles.',
-            style: TextStyle(
-              color: Color(0xFFD7E3FF),
-              fontSize: 14,
-              height: 1.35,
-            ),
-          ),
-          const SizedBox(height: 18),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: ElevatedButton.icon(
-              onPressed: _openCreateUserFlow,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: const Color(0xFF0F172A),
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              ),
-              icon: const Icon(Icons.person_add_alt_1),
-              label: const Text(
-                'Add user',
-                style: TextStyle(fontWeight: FontWeight.w700),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -164,8 +101,6 @@ class _UsersScreenState extends State<UsersScreen> {
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         child: Column(
           children: [
-            _buildHeader(),
-            const SizedBox(height: 16),
             Expanded(
               child: BlocBuilder<UsersCubit, UsersState>(
                 builder: (context, state) {
@@ -211,15 +146,9 @@ class _UsersScreenState extends State<UsersScreen> {
                             ),
                             const SizedBox(height: 8),
                             const Text(
-                              'Create the first account from the button above.',
+                              'Create the first account from the button below.',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Color(0xFF64748B)),
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton.icon(
-                              onPressed: _openCreateUserFlow,
-                              icon: const Icon(Icons.person_add_alt_1),
-                              label: const Text('Add user'),
                             ),
                           ],
                         ),
@@ -240,9 +169,8 @@ class _UsersScreenState extends State<UsersScreen> {
                           elevation: 0,
                           color: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                          child: ExpansionTile(
-                            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             leading: Container(
                               width: 44,
                               height: 44,
@@ -263,27 +191,43 @@ class _UsersScreenState extends State<UsersScreen> {
                                 style: const TextStyle(color: Color(0xFF64748B)),
                               ),
                             ),
-                            trailing: const Icon(Icons.expand_more, color: Color(0xFF64748B)),
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: OutlinedButton.icon(
-                                  onPressed: () => _openRoleEditor(
-                                    userId: user.userId,
-                                    username: user.username,
-                                    currentRole: role,
-                                  ),
-                                  icon: const Icon(Icons.edit_outlined),
-                                  label: const Text('Edit role'),
-                                ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.edit_outlined, color: Color(0xFF64748B)),
+                              onPressed: () => _openRoleEditor(
+                                userId: user.userId,
+                                username: user.username,
+                                currentRole: role,
                               ),
-                            ],
+                            ),
                           ),
                         );
                       },
                     ),
                   );
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 0, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Material(
+                  color: const Color(0xFF0D47A1),
+                  borderRadius: BorderRadius.circular(18),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(18),
+                    onTap: _openCreateUserFlow,
+                    child: const SizedBox(
+                      width: 64,
+                      height: 64,
+                      child: Icon(
+                        Icons.person_add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
