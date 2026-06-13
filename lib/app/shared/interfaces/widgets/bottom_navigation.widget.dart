@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../iam/application/internal/session_manager.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
@@ -33,11 +34,11 @@ class BottomNavigationWidget extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: const Color(0xFFF4F5FB),
+            color: AppColors.navBackground,
             borderRadius: BorderRadius.circular(22),
             boxShadow: const [
               BoxShadow(
-                color: Color(0x1A000000),
+                color: AppColors.shadowMedium,
                 blurRadius: 16,
                 offset: Offset(0, 8),
               ),
@@ -57,7 +58,7 @@ class BottomNavigationWidget extends StatelessWidget {
                     curve: Curves.easeOut,
                     height: 72,
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF2563EB) : Colors.transparent,
+                      color: isSelected ? AppColors.primary : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -65,7 +66,7 @@ class BottomNavigationWidget extends StatelessWidget {
                       children: [
                         Icon(
                           item.icon,
-                          color: isSelected ? Colors.white : const Color(0xFF9CA3AF),
+                          color: isSelected ? Colors.white : AppColors.textDisabled,
                           size: 28,
                         ),
                         const SizedBox(height: 6),
@@ -74,7 +75,7 @@ class BottomNavigationWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: isSelected ? Colors.white : const Color(0xFF9CA3AF),
+                            color: isSelected ? Colors.white : AppColors.textDisabled,
                           ),
                         ),
                       ],

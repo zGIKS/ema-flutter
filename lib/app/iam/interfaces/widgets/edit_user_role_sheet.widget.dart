@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../domain/model/valueobjects/user_role.valueobject.dart';
 
 class EditUserRoleSheet extends StatefulWidget {
@@ -41,12 +42,16 @@ class _EditUserRoleSheetState extends State<EditUserRoleSheet> {
           children: [
             const Text(
               'Edit role',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Color(0xFF111827)),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textTitle,
+              ),
             ),
             const SizedBox(height: 6),
             Text(
               widget.username,
-              style: const TextStyle(color: Color(0xFF6B7280)),
+              style: const TextStyle(color: AppColors.textMuted),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<UserRole>(
@@ -55,7 +60,9 @@ class _EditUserRoleSheetState extends State<EditUserRoleSheet> {
                 labelText: 'Role',
                 filled: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               items: UserRole.values
                   .map(
@@ -80,9 +87,11 @@ class _EditUserRoleSheetState extends State<EditUserRoleSheet> {
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(_selectedRole),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D47A1),
+                  backgroundColor: AppColors.primaryDark,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
                 child: const Text('Save changes'),
               ),

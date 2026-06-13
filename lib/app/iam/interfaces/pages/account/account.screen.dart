@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../application/internal/session_manager.dart';
 import '../../../infrastructure/api/gateways/iam.gateway.dart';
@@ -22,23 +23,26 @@ class _AccountScreenState extends State<AccountScreen> {
 
     try {
       await IamHttpGateway(AppDependencies.createDio()).logout();
+    } catch (_) {
+      // Logout endpoint failure is non-critical; session is cleared regardless.
     } finally {
       await SessionManager.clearSession();
-      if (!mounted) {
-        return;
-      }
-
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const SignInScreen()),
-        (route) => false,
-      );
     }
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const SignInScreen()),
+      (route) => false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -57,30 +61,36 @@ class _AccountScreenState extends State<AccountScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
+                border: Border.all(color: AppColors.borderWarm),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CircleAvatar(
                     radius: 28,
-                    backgroundColor: Color(0xFFEAF2FF),
-                    child: Icon(Icons.person, color: Color(0xFF2563EB), size: 30),
+                    backgroundColor: AppColors.primaryLight,
+                    child: Icon(Icons.person, color: AppColors.primary, size: 30),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     SessionManager.username ?? 'User',
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     SessionManager.role ?? '',
-                    style: const TextStyle(color: Color(0xFF64748B)),
+                    style: const TextStyle(color: AppColors.textTertiary),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     SessionManager.userId ?? '',
-                    style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
+                    style: const TextStyle(
+                      color: AppColors.textHint,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -91,15 +101,20 @@ class _AccountScreenState extends State<AccountScreen> {
               child: ElevatedButton(
                 onPressed: _isLoggingOut ? null : _logout,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFDC2626),
+                  backgroundColor: AppColors.error,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
                 child: _isLoggingOut
                     ? const SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Text('Logout'),
               ),

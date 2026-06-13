@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
 import '../../../infrastructure/api/gateways/person.gateway.dart';
 import '../../../../shared/interfaces/widgets/material_loading.widget.dart';
+import '../../../../shared/interfaces/widgets/primary_fab_button.widget.dart';
 
 import 'registered_persons_cubit.dart';
 import 'registered_persons_state.dart';
@@ -16,7 +18,8 @@ class RegisteredPersonsScreen extends StatefulWidget {
   const RegisteredPersonsScreen({super.key, required this.isActive});
 
   @override
-  State<RegisteredPersonsScreen> createState() => _RegisteredPersonsScreenState();
+  State<RegisteredPersonsScreen> createState() =>
+      _RegisteredPersonsScreenState();
 }
 
 class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
@@ -72,7 +75,7 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: AppColors.border),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.02),
@@ -86,10 +89,16 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                 onChanged: _onSearchChanged,
                 decoration: const InputDecoration(
                   hintText: 'Search by DNI or name',
-                  hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 15),
-                  prefixIcon: Icon(Icons.search, color: Color(0xFF94A3B8)),
+                  hintStyle: TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 15,
+                  ),
+                  prefixIcon: Icon(Icons.search, color: AppColors.textHint),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 15,
+                  ),
                 ),
               ),
             ),
@@ -97,11 +106,12 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
             Expanded(
               child: BlocBuilder<RegisteredPersonsCubit, RegisteredPersonsState>(
                 builder: (context, state) {
-                  if (state.status == RegisteredPersonsStatus.loading || state.status == RegisteredPersonsStatus.initial) {
+                  if (state.status == RegisteredPersonsStatus.loading ||
+                      state.status == RegisteredPersonsStatus.initial) {
                     return const MaterialLoadingWidget();
                   }
 
-                    if (state.status == RegisteredPersonsStatus.failure) {
+                  if (state.status == RegisteredPersonsStatus.failure) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(24),
@@ -109,12 +119,15 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              state.errorMessage ?? 'Unable to load registered persons',
+                              state.errorMessage ??
+                                  'Unable to load registered persons',
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () => context.read<RegisteredPersonsCubit>().loadPersons(clearPage: true),
+                              onPressed: () => context
+                                  .read<RegisteredPersonsCubit>()
+                                  .loadPersons(clearPage: true),
                               child: const Text('Retry'),
                             ),
                           ],
@@ -125,11 +138,15 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
 
                   final page = state.page;
                   if (page == null || page.items.isEmpty) {
-                    return const Center(child: Text('No registered persons yet'));
+                    return const Center(
+                      child: Text('No registered persons yet'),
+                    );
                   }
 
                   return RefreshIndicator(
-                    onRefresh: () => context.read<RegisteredPersonsCubit>().loadPersons(clearPage: true),
+                    onRefresh: () => context
+                        .read<RegisteredPersonsCubit>()
+                        .loadPersons(clearPage: true),
                     child: ListView.separated(
                       padding: const EdgeInsets.only(top: 8, bottom: 88),
                       itemCount: page.items.length,
@@ -139,20 +156,33 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
                         return Card(
                           elevation: 0,
                           color: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                             leading: CircleAvatar(
-                              backgroundColor: const Color(0xFFE8EEFF),
-                              foregroundColor: const Color(0xFF0D47A1),
-                              backgroundImage: person.imageUrl != null && person.imageUrl!.isNotEmpty
+                              backgroundColor: AppColors.avatarBackground,
+                              foregroundColor: AppColors.primaryDark,
+                              backgroundImage: person.imageUrl != null &&
+                                      person.imageUrl!.isNotEmpty
                                   ? NetworkImage(person.imageUrl!)
                                   : null,
-                              child: person.imageUrl != null && person.imageUrl!.isNotEmpty
+                              child: person.imageUrl != null &&
+                                      person.imageUrl!.isNotEmpty
                                   ? null
-                                  : Text(person.firstName.isNotEmpty ? person.firstName[0].toUpperCase() : '?'),
+                                  : Text(
+                                      person.firstName.isNotEmpty
+                                          ? person.firstName[0].toUpperCase()
+                                          : '?',
+                                    ),
                             ),
-                            title: Text('${person.firstName} ${person.lastName}'),
+                            title: Text(
+                              '${person.firstName} ${person.lastName}',
+                            ),
                             subtitle: Text('DNI ${person.dni}'),
                             trailing: const Icon(Icons.chevron_right),
                             onTap: () => AppRouter.openPersonProfile(
@@ -168,28 +198,10 @@ class _RegisteredPersonsScreenState extends State<RegisteredPersonsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 0, bottom: 4),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Material(
-                  color: const Color(0xFF0D47A1),
-                  borderRadius: BorderRadius.circular(18),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(18),
-                    onTap: () {
-                      AppRouter.openRegisterPerson(context);
-                    },
-                    child: const SizedBox(
-                      width: 64,
-                      height: 64,
-                      child: Icon(
-                        Icons.person_add,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
+              padding: const EdgeInsets.only(bottom: 4),
+              child: PrimaryFabButton(
+                onTap: () => AppRouter.openRegisterPerson(context),
+                icon: Icons.person_add,
               ),
             ),
           ],

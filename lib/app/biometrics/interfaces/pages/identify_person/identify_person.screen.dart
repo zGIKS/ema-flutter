@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../application/internal/queryservices/person_identification_query_service_impl.dart';
@@ -65,7 +66,8 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
           Expanded(
             child: BlocConsumer<IdentifyPersonCubit, IdentifyPersonState>(
               listener: (context, state) {
-                if (state.status == IdentifyPersonStatus.failure && state.errorMessage != null) {
+                if (state.status == IdentifyPersonStatus.failure &&
+                    state.errorMessage != null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.errorMessage!)),
                   );
@@ -85,7 +87,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF111827),
+                          color: AppColors.textTitle,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -94,7 +96,7 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                         style: TextStyle(
                           fontSize: 15,
                           height: 1.35,
-                          color: Color(0xFF4B5563),
+                          color: AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -110,11 +112,17 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                         width: double.infinity,
                         height: 52,
                         child: ElevatedButton.icon(
-                          onPressed: isLoading ? null : () => context.read<IdentifyPersonCubit>().identifyPerson(),
+                          onPressed: isLoading
+                              ? null
+                              : () => context
+                                  .read<IdentifyPersonCubit>()
+                                  .identifyPerson(),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0D47A1),
+                            backgroundColor: AppColors.primaryDark,
                             foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
                             elevation: 0,
                           ),
                           icon: isLoading
@@ -127,7 +135,9 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                                   ),
                                 )
                               : const Icon(Icons.search_rounded, size: 20),
-                          label: Text(isLoading ? 'Identifying...' : 'Identify Person'),
+                          label: Text(
+                            isLoading ? 'Identifying...' : 'Identify Person',
+                          ),
                         ),
                       ),
                       const SizedBox(height: 18),
@@ -137,7 +147,10 @@ class _IdentifyPersonScreenState extends State<IdentifyPersonScreen> {
                           onViewProfile: () {
                             final uuid = state.result!.uuid;
                             if (uuid?.isNotEmpty ?? false) {
-                              AppRouter.openPersonProfile(context, personId: uuid!);
+                              AppRouter.openPersonProfile(
+                                context,
+                                personId: uuid!,
+                              );
                             }
                           },
                         ),

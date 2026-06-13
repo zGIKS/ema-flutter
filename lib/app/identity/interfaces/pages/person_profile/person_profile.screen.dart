@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../application/internal/commandservices/person_profile_command_service_impl.dart';
 import '../../../application/internal/queryservices/person_profile_query_service_impl.dart';
@@ -56,7 +57,7 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8F9FC),
+        backgroundColor: AppColors.background,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -100,12 +101,12 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                       children: [
                         CircleAvatar(
                           radius: 56,
-                          backgroundColor: const Color(0xFFE8EEFF),
+                          backgroundColor: AppColors.avatarBackground,
                           backgroundImage: profile.imageUrl != null && profile.imageUrl!.isNotEmpty
                               ? NetworkImage(profile.imageUrl!)
                               : null,
                           child: profile.imageUrl == null || profile.imageUrl!.isEmpty
-                              ? const Icon(Icons.person, size: 48, color: Color(0xFF0D47A1))
+                              ? const Icon(Icons.person, size: 48, color: AppColors.primaryDark)
                               : null,
                         ),
                         const SizedBox(height: 16),
@@ -117,19 +118,19 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                         const SizedBox(height: 6),
                         Text(
                           'DNI ${profile.dni}',
-                          style: const TextStyle(color: Color(0xFF6B7280), fontSize: 15),
+                          style: const TextStyle(color: AppColors.textMuted, fontSize: 15),
                         ),
                         const SizedBox(height: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFEAF2FF),
+                            color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Text(
                             '${profile.totalSamples} registered photos',
                             style: const TextStyle(
-                              color: Color(0xFF0D47A1),
+                              color: AppColors.primaryDark,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -150,7 +151,7 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: const Color(0xFFE5E7EB)),
+                        border: Border.all(color: AppColors.borderWarm),
                       ),
                       child: const Text('No sample photos yet'),
                     )
@@ -170,9 +171,9 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Container(
-                            color: const Color(0xFFF1F5F9),
+                            color: AppColors.surfaceVariant,
                             child: imageUrl.isEmpty
-                                ? const Icon(Icons.image_outlined, color: Color(0xFF94A3B8))
+                                ? const Icon(Icons.image_outlined, color: AppColors.textHint)
                                 : Image.network(imageUrl, fit: BoxFit.cover),
                           ),
                         );
@@ -185,7 +186,7 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                     child: ElevatedButton.icon(
                       onPressed: isUploading ? null : () => _pickImage(ImageSource.camera),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0D47A1),
+                        backgroundColor: AppColors.primaryDark,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         elevation: 0,
@@ -207,8 +208,8 @@ class _PersonProfileScreenState extends State<PersonProfileScreen> {
                     child: OutlinedButton.icon(
                       onPressed: isUploading ? null : () => _pickImage(ImageSource.gallery),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFF0D47A1),
-                        side: const BorderSide(color: Color(0xFF0D47A1)),
+                        foregroundColor: AppColors.primaryDark,
+                        side: const BorderSide(color: AppColors.primaryDark),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       ),
                       icon: const Icon(Icons.photo_library_outlined),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../pages/create_user/create_user_cubit.dart';
 import '../pages/create_user/create_user_state.dart';
 
@@ -42,7 +43,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('${state.createdUser?.username ?? 'User'} created successfully'),
-              backgroundColor: const Color(0xFF16A34A),
+              backgroundColor: AppColors.success,
             ),
           );
           Navigator.of(context).pop(true);
@@ -62,7 +63,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             children: [
               const Text(
                 'Username',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF4B5563)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 8),
               TextFormField(
@@ -71,22 +72,22 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z]'))],
                 decoration: InputDecoration(
                   hintText: 'mateo',
-                  hintStyle: const TextStyle(color: Color(0xFFA0AABF)),
-                  prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF4B5563)),
+                  hintStyle: const TextStyle(color: AppColors.textHintSoft),
+                  prefixIcon: const Icon(Icons.person_outline, color: AppColors.textSecondary),
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF0D47A1), width: 2),
+                    borderSide: const BorderSide(color: AppColors.primaryDark, width: 2),
                   ),
                 ),
                 validator: (value) {
@@ -100,7 +101,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               const SizedBox(height: 20),
               const Text(
                 'Password',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF4B5563)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 8),
               TextFormField(
@@ -108,12 +109,12 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   hintText: 'Admin12345!A',
-                  hintStyle: const TextStyle(color: Color(0xFFA0AABF)),
-                  prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF4B5563)),
+                  hintStyle: const TextStyle(color: AppColors.textHintSoft),
+                  prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textSecondary),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                      color: const Color(0xFF64748B),
+                      color: AppColors.textTertiary,
                     ),
                     onPressed: () {
                       setState(() {
@@ -126,15 +127,15 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF0D47A1), width: 2),
+                    borderSide: const BorderSide(color: AppColors.primaryDark, width: 2),
                   ),
                 ),
                 validator: (value) {
@@ -164,7 +165,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 child: ElevatedButton.icon(
                   onPressed: isLoading ? null : _onSubmit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0D47A1),
+                    backgroundColor: AppColors.primaryDark,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
                     elevation: 0,

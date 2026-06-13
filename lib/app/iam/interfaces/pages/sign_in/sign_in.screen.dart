@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../infrastructure/api/gateways/iam.gateway.dart';
 import '../../../application/internal/commandservices/iam_command_service_impl.dart';
@@ -14,13 +15,13 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Instantiate dependencies
-    final dio = AppDependencies.createDio();
-    final gateway = IamHttpGateway(dio);
-    final commandService = IamCommandServiceImpl(gateway);
-
     return BlocProvider(
-      create: (_) => SignInCubit(commandService: commandService),
+      create: (_) {
+        final dio = AppDependencies.createDio();
+        final gateway = IamHttpGateway(dio);
+        final commandService = IamCommandServiceImpl(gateway);
+        return SignInCubit(commandService: commandService);
+      },
       child: _SignInPageOrchestrator(errorOverride: errorOverride),
     );
   }
@@ -85,7 +86,7 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8F9FC),
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -101,16 +102,16 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEAF2FF),
+                          color: AppColors.primaryLight,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFF2563EB).withValues(alpha: 0.2),
+                            color: AppColors.primary.withValues(alpha: 0.2),
                             width: 2,
                           ),
                         ),
                         child: const Icon(
                           Icons.fingerprint,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 64,
                         ),
                       ),
@@ -122,7 +123,7 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF111827),
+                        color: AppColors.textTitle,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -132,7 +133,7 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textTertiary,
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -141,12 +142,15 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFEE2E2),
+                          color: AppColors.errorBg,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Text(
                           initialError,
-                          style: const TextStyle(color: Color(0xFF991B1B), fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                            color: AppColors.errorText,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -158,10 +162,10 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
+                        border: Border.all(color: AppColors.border),
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0x0C000000),
+                            color: AppColors.shadowLight,
                             blurRadius: 20,
                             offset: Offset(0, 10),
                           ),
@@ -176,31 +180,45 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF1F2937),
+                              color: AppColors.textBody,
                             ),
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _usernameController,
-                            style: const TextStyle(color: Color(0xFF111827)),
+                            style: const TextStyle(color: AppColors.textTitle),
                             decoration: InputDecoration(
                               hintText: 'Enter your username',
-                              hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-                              prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF2563EB)),
+                              hintStyle: const TextStyle(
+                                color: AppColors.textHint,
+                                fontSize: 14,
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.person_outline,
+                                color: AppColors.primary,
+                              ),
                               filled: true,
-                              fillColor: const Color(0xFFF8F9FC),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              fillColor: AppColors.background,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                borderSide: const BorderSide(
+                                  color: AppColors.border,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                  width: 1.5,
+                                ),
                               ),
                             ),
                             validator: (value) {
@@ -218,22 +236,30 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF1F2937),
+                              color: AppColors.textBody,
                             ),
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
-                            style: const TextStyle(color: Color(0xFF111827)),
+                            style: const TextStyle(color: AppColors.textTitle),
                             decoration: InputDecoration(
                               hintText: 'Enter your password',
-                              hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-                              prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF2563EB)),
+                              hintStyle: const TextStyle(
+                                color: AppColors.textHint,
+                                fontSize: 14,
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.lock_outline,
+                                color: AppColors.primary,
+                              ),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                                  color: const Color(0xFF64748B),
+                                  _obscurePassword
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: AppColors.textTertiary,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -242,19 +268,27 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                                 },
                               ),
                               filled: true,
-                              fillColor: const Color(0xFFF8F9FC),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                              fillColor: AppColors.background,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                borderSide: const BorderSide(
+                                  color: AppColors.border,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                  width: 1.5,
+                                ),
                               ),
                             ),
                             validator: (value) {
@@ -277,9 +311,9 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                         return ElevatedButton(
                           onPressed: isLoading ? null : () => _submit(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2563EB),
+                            backgroundColor: AppColors.primary,
                             foregroundColor: Colors.white,
-                            disabledBackgroundColor: const Color(0xFF2563EB).withValues(alpha: 0.5),
+                            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -292,7 +326,9 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                                   width: 20,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 )
                               : const Text(

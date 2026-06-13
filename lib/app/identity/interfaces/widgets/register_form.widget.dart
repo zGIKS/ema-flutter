@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../shared/interfaces/widgets/face_upload_card.widget.dart';
 import '../pages/register_person/register_person_cubit.dart';
 import '../pages/register_person/register_person_state.dart';
@@ -79,7 +80,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF4B5563),
+                  color: AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -90,25 +91,25 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 maxLength: 8,
                 decoration: InputDecoration(
                   hintText: '8-digit document number',
-                  hintStyle: const TextStyle(color: Color(0xFFA0AABF)),
+                  hintStyle: const TextStyle(color: AppColors.textHintSoft),
                   helperText: 'Must be exactly 8 digits',
-                  helperStyle: const TextStyle(color: Color(0xFF6B7280), fontWeight: FontWeight.w500),
-                  prefixIcon: const Icon(Icons.badge_outlined, color: Color(0xFF4B5563)),
+                  helperStyle: const TextStyle(color: AppColors.textMuted, fontWeight: FontWeight.w500),
+                  prefixIcon: const Icon(Icons.badge_outlined, color: AppColors.textSecondary),
                   filled: true,
                   fillColor: Colors.white,
                   counterText: "",
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF6B7280)),
+                    borderSide: const BorderSide(color: AppColors.textMuted),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF0D47A1), width: 2),
+                    borderSide: const BorderSide(color: AppColors.primaryDark, width: 2),
                   ),
                 ),
                 validator: (value) {
@@ -125,15 +126,15 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 child: ElevatedButton.icon(
                   onPressed: isLoading ? null : _onSubmit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0D47A1),
+                    backgroundColor: AppColors.primaryDark,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28),
                     ),
                     elevation: 0,
                   ),
-                  icon: isLoading 
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
+                  icon: isLoading
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
                       : const Icon(Icons.save_outlined),
                   label: Text(
                     isLoading ? 'Registering...' : 'Register Person',

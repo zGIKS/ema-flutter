@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 
 import '../rest/resources/usage_log.resource.dart';
 
@@ -27,27 +28,27 @@ class AuditoryLogCardWidget extends StatelessWidget {
                 : 'UNKNOWN';
 
     final badgeColor = isFaceSampleUpload
-        ? const Color(0xFFEDE9FE)
+        ? AppColors.auditFaceBg
         : isRegister
-            ? const Color(0xFFE0F2FE)
+            ? AppColors.auditActionBg
             : isIdentified
-                ? const Color(0xFFE0F2FE)
-                : const Color(0xFFFEE2E2);
+                ? AppColors.auditActionBg
+                : AppColors.errorBg;
 
     final badgeTextColor = isFaceSampleUpload
-        ? const Color(0xFF7C3AED)
+        ? AppColors.auditFaceText
         : isRegister
-            ? const Color(0xFF0369A1)
+            ? AppColors.auditActionText
             : isIdentified
-                ? const Color(0xFF0369A1)
-                : const Color(0xFFB91C1C);
+                ? AppColors.auditActionText
+                : AppColors.auditErrorText;
 
     return Card(
       elevation: 0,
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
+        side: const BorderSide(color: AppColors.border, width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -59,20 +60,20 @@ class AuditoryLogCardWidget extends StatelessWidget {
               child: Container(
                 width: 70,
                 height: 70,
-                color: const Color(0xFFF1F5F9),
+                color: AppColors.surfaceVariant,
                 child: log.imageUrl != null && log.imageUrl!.isNotEmpty
                     ? Image.network(
                         log.imageUrl!,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Icon(
                           Icons.broken_image,
-                          color: Color(0xFF94A3B8),
+                          color: AppColors.textHint,
                         ),
                       )
                     : const Icon(
                         Icons.face,
                         size: 36,
-                        color: Color(0xFF94A3B8),
+                        color: AppColors.textHint,
                       ),
               ),
             ),
@@ -88,7 +89,7 @@ class AuditoryLogCardWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: isFaceSampleUpload ? const Color(0xFF6D28D9) : const Color(0xFF1E293B),
+                      color: isFaceSampleUpload ? AppColors.adminBadgeText : AppColors.textTitle,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -100,30 +101,30 @@ class AuditoryLogCardWidget extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textTertiary,
                       ),
                     ),
                   ],
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      const Icon(Icons.speed, size: 14, color: Color(0xFF64748B)),
+                      const Icon(Icons.speed, size: 14, color: AppColors.textTertiary),
                       const SizedBox(width: 4),
                       Text(
                         log.confidence != null ? '${(log.confidence! * 100).toStringAsFixed(1)}%' : 'N/A',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textTertiary,
                         ),
                       ),
                       const SizedBox(width: 12),
-                      const Icon(Icons.timer_outlined, size: 14, color: Color(0xFF64748B)),
+                      const Icon(Icons.timer_outlined, size: 14, color: AppColors.textTertiary),
                       const SizedBox(width: 4),
                       Text(
                         '${(log.durationMs / 1000).toStringAsFixed(2)} s',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textTertiary,
                         ),
                       ),
                     ],
@@ -134,7 +135,7 @@ class AuditoryLogCardWidget extends StatelessWidget {
                       'Added ${log.samplesAdded ?? 0} photos | Total ${log.totalSamples ?? 0}',
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textTertiary,
                       ),
                     ),
                   ],
@@ -146,7 +147,7 @@ class AuditoryLogCardWidget extends StatelessWidget {
                         formatTimestamp(log.usedAt),
                         style: const TextStyle(
                           fontSize: 11,
-                          color: Color(0xFF94A3B8),
+                          color: AppColors.textHint,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

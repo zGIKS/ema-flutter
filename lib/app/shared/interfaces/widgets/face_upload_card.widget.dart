@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 
 class FaceUploadCardWidget extends StatelessWidget {
   final String? imagePath;
@@ -27,14 +28,14 @@ class FaceUploadCardWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF4B5563),
+            color: AppColors.textSecondary,
             letterSpacing: 1.0,
           ),
         ),
         const SizedBox(height: 12),
         CustomPaint(
           painter: DottedBorderPainter(
-            color: const Color(0xFFC7D2FE),
+            color: AppColors.faceCardBorder,
             dashWidth: 4,
             dashSpace: 4,
             radius: 12,
@@ -43,7 +44,7 @@ class FaceUploadCardWidget extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 40),
             decoration: BoxDecoration(
-              color: const Color(0xFFF4F6FB),
+              color: AppColors.faceCardBg,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -68,7 +69,7 @@ class FaceUploadCardWidget extends StatelessWidget {
                               child: Icon(
                                 Icons.face,
                                 size: 45,
-                                color: Color(0xFFA5B4FC),
+                                color: AppColors.faceCardIcon,
                               ),
                             ),
                     ),
@@ -77,7 +78,7 @@ class FaceUploadCardWidget extends StatelessWidget {
                         right: -8,
                         top: -8,
                         child: Material(
-                          color: const Color(0xFF111827),
+                          color: AppColors.clearPhotoBg,
                           shape: const CircleBorder(),
                           child: InkWell(
                             customBorder: const CircleBorder(),
@@ -103,7 +104,7 @@ class FaceUploadCardWidget extends StatelessWidget {
                     ElevatedButton.icon(
                       onPressed: onTakePhoto,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0D47A1),
+                        backgroundColor: AppColors.primaryDark,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -121,8 +122,8 @@ class FaceUploadCardWidget extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: onGallery,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFF1F2937),
-                        side: const BorderSide(color: Color(0xFF6B7280), width: 1),
+                        foregroundColor: AppColors.textBody,
+                        side: const BorderSide(color: AppColors.textMuted, width: 1),
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),

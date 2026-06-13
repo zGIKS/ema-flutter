@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../../shared/interfaces/widgets/material_loading.widget.dart';
+import '../../../../shared/interfaces/widgets/primary_fab_button.widget.dart';
 import '../../../application/internal/commandservices/users_command_service_impl.dart';
 import '../../../application/internal/queryservices/users_query_service_impl.dart';
 import '../../../domain/model/valueobjects/user_role.valueobject.dart';
@@ -55,7 +57,7 @@ class _UsersScreenState extends State<UsersScreen> {
     final selectedRole = await showModalBottomSheet<UserRole>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFFF8F9FC),
+      backgroundColor: AppColors.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -76,7 +78,7 @@ class _UsersScreenState extends State<UsersScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('User role updated successfully'),
-            backgroundColor: Color(0xFF16A34A),
+            backgroundColor: AppColors.success,
           ),
         );
       }
@@ -104,7 +106,8 @@ class _UsersScreenState extends State<UsersScreen> {
             Expanded(
               child: BlocBuilder<UsersCubit, UsersState>(
                 builder: (context, state) {
-                  if (state.status == UsersStatus.initial || state.status == UsersStatus.loading) {
+                  if (state.status == UsersStatus.initial ||
+                      state.status == UsersStatus.loading) {
                     return const MaterialLoadingWidget(itemCount: 4);
                   }
 
@@ -118,11 +121,12 @@ class _UsersScreenState extends State<UsersScreen> {
                             Text(
                               state.errorMessage ?? 'Unable to load users',
                               textAlign: TextAlign.center,
-                              style: const TextStyle(color: Color(0xFF1F2937)),
+                              style: const TextStyle(color: AppColors.textBody),
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () => context.read<UsersCubit>().loadUsers(),
+                              onPressed: () =>
+                                  context.read<UsersCubit>().loadUsers(),
                               child: const Text('Retry'),
                             ),
                           ],
@@ -137,18 +141,25 @@ class _UsersScreenState extends State<UsersScreen> {
                         padding: const EdgeInsets.all(24),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.people_outline, size: 48, color: Color(0xFF94A3B8)),
-                            const SizedBox(height: 12),
-                            const Text(
-                              'No users yet',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                          children: const [
+                            Icon(
+                              Icons.people_outline,
+                              size: 48,
+                              color: AppColors.textHint,
                             ),
-                            const SizedBox(height: 8),
-                            const Text(
+                            SizedBox(height: 12),
+                            Text(
+                              'No users yet',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
                               'Create the first account from the button below.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Color(0xFF64748B)),
+                              style: TextStyle(color: AppColors.textTertiary),
                             ),
                           ],
                         ),
@@ -164,49 +175,65 @@ class _UsersScreenState extends State<UsersScreen> {
                       separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final user = state.users[index];
-                        final role = user.role.isNotEmpty ? UserRole.fromValue(user.role) : UserRole.user;
+                        final role = user.role.isNotEmpty
+                            ? UserRole.fromValue(user.role)
+                            : UserRole.user;
                         return Card(
                           elevation: 0,
                           color: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                           child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                             leading: Container(
                               width: 44,
                               height: 44,
                               decoration: BoxDecoration(
-                                color: const Color(0xFFEAF2FF),
+                                color: AppColors.primaryLight,
                                 borderRadius: BorderRadius.circular(14),
                               ),
-                              child: const Icon(Icons.person, color: Color(0xFF1D4ED8)),
+                              child: const Icon(
+                                Icons.person,
+                                color: AppColors.primaryMedium,
+                              ),
                             ),
                             title: Text(
                               user.username,
-                              style: const TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF111827)),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textTitle,
+                              ),
                             ),
                             subtitle: Padding(
                               padding: const EdgeInsets.only(top: 6),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: role == UserRole.admin
-                                        ? const Color(0xFFF5F3FF) // Soft purple for Admin
-                                        : const Color(0xFFF1F5F9), // Soft slate for User
+                                        ? AppColors.adminBadgeBg
+                                        : AppColors.userBadgeBg,
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
                                       color: role == UserRole.admin
-                                          ? const Color(0xFFDDD6FE)
-                                          : const Color(0xFFE2E8F0),
+                                          ? AppColors.adminBadgeBorder
+                                          : AppColors.border,
                                     ),
                                   ),
                                   child: Text(
                                     role.label,
                                     style: TextStyle(
                                       color: role == UserRole.admin
-                                          ? const Color(0xFF6D28D9)
-                                          : const Color(0xFF475569),
+                                          ? AppColors.adminBadgeText
+                                          : AppColors.userBadgeText,
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -215,7 +242,10 @@ class _UsersScreenState extends State<UsersScreen> {
                               ),
                             ),
                             trailing: IconButton(
-                              icon: const Icon(Icons.edit_outlined, color: Color(0xFF64748B)),
+                              icon: const Icon(
+                                Icons.edit_outlined,
+                                color: AppColors.textTertiary,
+                              ),
                               onPressed: () => _openRoleEditor(
                                 userId: user.userId,
                                 username: user.username,
@@ -231,26 +261,10 @@ class _UsersScreenState extends State<UsersScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 0, bottom: 4),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Material(
-                  color: const Color(0xFF0D47A1),
-                  borderRadius: BorderRadius.circular(18),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(18),
-                    onTap: _openCreateUserFlow,
-                    child: const SizedBox(
-                      width: 64,
-                      height: 64,
-                      child: Icon(
-                        Icons.person_add,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
+              padding: const EdgeInsets.only(bottom: 4),
+              child: PrimaryFabButton(
+                onTap: _openCreateUserFlow,
+                icon: Icons.person_add,
               ),
             ),
           ],

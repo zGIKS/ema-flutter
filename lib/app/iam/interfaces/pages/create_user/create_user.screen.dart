@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../application/internal/commandservices/users_command_service_impl.dart';
 import '../../../infrastructure/api/gateways/users.gateway.dart';
@@ -13,13 +14,13 @@ class CreateUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           'Create User',
-          style: TextStyle(color: Color(0xFF111827), fontWeight: FontWeight.w800),
+          style: TextStyle(color: AppColors.textTitle, fontWeight: FontWeight.w800),
         ),
       ),
       body: BlocProvider(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../iam/application/internal/session_manager.dart';
 
 import '../rest/resources/identification_response.resource.dart';
@@ -24,7 +25,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.borderWarm),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +34,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
             children: [
               Icon(
                 isVerified ? Icons.verified : Icons.info_outline,
-                color: const Color(0xFF0D47A1),
+                color: AppColors.primaryDark,
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -41,7 +42,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
                 isVerified ? 'Verified User' : 'Unverified Match',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
+                  color: AppColors.textTitle,
                 ),
               ),
               const Spacer(),
@@ -50,7 +51,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0D47A1),
+                  color: AppColors.primaryDark,
                 ),
               ),
             ],
@@ -62,7 +63,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8EEFF),
+                  color: AppColors.avatarBackground,
                   borderRadius: BorderRadius.circular(14),
                   image: result.imageUrl == null
                       ? null
@@ -72,7 +73,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
                         ),
                 ),
                 child: result.imageUrl == null
-                    ? const Icon(Icons.person, color: Color(0xFF0D47A1), size: 32)
+                    ? const Icon(Icons.person, color: AppColors.primaryDark, size: 32)
                     : null,
               ),
               const SizedBox(width: 14),
@@ -85,25 +86,25 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF111827),
+                        color: AppColors.textTitle,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'DNI: ${result.dni ?? '-'}',
-                      style: const TextStyle(color: Color(0xFF4B5563)),
+                      style: const TextStyle(color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEAF2FF),
+                        color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(999),
                       ),
                       child: Text(
                         'Match: $confidenceLabel',
                         style: const TextStyle(
-                          color: Color(0xFF0D47A1),
+                          color: AppColors.primaryDark,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
@@ -121,7 +122,7 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: onViewProfile,
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFD1D5DB)),
+                  side: const BorderSide(color: AppColors.profileAvatarBorder),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
                 icon: const Icon(Icons.badge_outlined, size: 18),

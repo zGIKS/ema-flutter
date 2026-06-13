@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../biometrics/interfaces/pages/identify_person/identify_person.screen.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../iam/interfaces/pages/users/users.screen.dart';
 import '../../../identity/interfaces/pages/registered_persons/registered_persons.screen.dart';
@@ -28,8 +29,6 @@ class _AppShellWidgetState extends State<AppShellWidget> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final isAdmin = SessionManager.isAdmin;
@@ -46,7 +45,7 @@ class _AppShellWidgetState extends State<AppShellWidget> {
           ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
           AppHeaderWidget(onProfileTap: () => AppRouter.openAccount(context)),

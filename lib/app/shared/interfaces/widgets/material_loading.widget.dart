@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 
 class MaterialLoadingWidget extends StatefulWidget {
   final int itemCount;
@@ -60,7 +61,7 @@ class _MaterialLoadingCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.borderWarm),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -93,7 +94,7 @@ class _MaterialLoadingCard extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: const Color(0xFFE5E7EB),
+        color: AppColors.borderWarm,
         borderRadius: BorderRadius.circular(radius),
       ),
     );

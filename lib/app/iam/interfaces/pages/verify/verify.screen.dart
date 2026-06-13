@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
 
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../shared/interfaces/widgets/material_loading.widget.dart';
@@ -82,7 +83,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     if (_isBootstrapping) {
       return const Scaffold(
-        backgroundColor: Color(0xFFF8F9FC),
+        backgroundColor: AppColors.background,
         body: MaterialLoadingWidget(itemCount: 2),
       );
     }

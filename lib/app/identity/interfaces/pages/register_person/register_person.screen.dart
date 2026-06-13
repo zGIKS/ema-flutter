@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../widgets/register_form.widget.dart';
@@ -12,14 +13,14 @@ class RegisterPersonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FC),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           'Register New Person',
           style: TextStyle(
-            color: Color(0xFF333333),
+            color: AppColors.textTitle,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),

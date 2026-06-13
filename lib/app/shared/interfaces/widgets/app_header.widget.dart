@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 
 class AppHeaderWidget extends StatelessWidget {
   final VoidCallback? onProfileTap;
@@ -17,12 +18,12 @@ class AppHeaderWidget extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF2FF),
+                color: AppColors.primaryLight,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: const Icon(
                 Icons.fingerprint,
-                color: Color(0xFF2563EB),
+                color: AppColors.primary,
                 size: 30,
               ),
             ),
@@ -33,7 +34,7 @@ class AppHeaderWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF1F2937),
+                  color: AppColors.textBody,
                 ),
               ),
             ),
@@ -47,12 +48,15 @@ class AppHeaderWidget extends StatelessWidget {
                   height: 52,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFFD1D5DB), width: 2),
-                    color: const Color(0xFFF3F4F6),
+                    border: Border.all(
+                      color: AppColors.profileAvatarBorder,
+                      width: 2,
+                    ),
+                    color: AppColors.profileAvatarBg,
                   ),
                   child: const Icon(
                     Icons.person,
-                    color: Color(0xFF6B7280),
+                    color: AppColors.profileAvatarIcon,
                     size: 28,
                   ),
                 ),
