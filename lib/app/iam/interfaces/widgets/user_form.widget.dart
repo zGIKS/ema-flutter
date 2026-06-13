@@ -71,7 +71,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 textCapitalization: TextCapitalization.none,
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z]'))],
                 decoration: InputDecoration(
-                  hintText: 'mateo',
+                  hintText: 'username',
                   hintStyle: const TextStyle(color: AppColors.textHintSoft),
                   prefixIcon: const Icon(Icons.person_outline, color: AppColors.textSecondary),
                   filled: true,
@@ -108,7 +108,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
-                  hintText: 'Admin12345!A',
+                  hintText: 'Password',
                   hintStyle: const TextStyle(color: AppColors.textHintSoft),
                   prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textSecondary),
                   suffixIcon: IconButton(
