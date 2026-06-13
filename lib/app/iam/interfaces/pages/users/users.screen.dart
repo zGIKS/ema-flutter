@@ -185,10 +185,33 @@ class _UsersScreenState extends State<UsersScreen> {
                               style: const TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF111827)),
                             ),
                             subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                role.label,
-                                style: const TextStyle(color: Color(0xFF64748B)),
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: role == UserRole.admin
+                                        ? const Color(0xFFF5F3FF) // Soft purple for Admin
+                                        : const Color(0xFFF1F5F9), // Soft slate for User
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: role == UserRole.admin
+                                          ? const Color(0xFFDDD6FE)
+                                          : const Color(0xFFE2E8F0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    role.label,
+                                    style: TextStyle(
+                                      color: role == UserRole.admin
+                                          ? const Color(0xFF6D28D9)
+                                          : const Color(0xFF475569),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             trailing: IconButton(
