@@ -5,5 +5,7 @@ import '../network/app_dio.dart';
 class AppDependencies {
   AppDependencies._();
 
-  static Dio createDio() => createAppDio();
+  static Dio? _dio;
+
+  static Dio createDio() => _dio ??= createAppDio();
 }

@@ -8,7 +8,9 @@ import 'sign_in_state.dart';
 import '../../../../shared/interfaces/widgets/app_shell.widget.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  final String? errorOverride;
+
+  const SignInScreen({super.key, this.errorOverride});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +21,15 @@ class SignInScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => SignInCubit(commandService: commandService),
-      child: const _SignInPageOrchestrator(),
+      child: _SignInPageOrchestrator(errorOverride: errorOverride),
     );
   }
 }
 
 class _SignInPageOrchestrator extends StatefulWidget {
-  const _SignInPageOrchestrator();
+  final String? errorOverride;
+
+  const _SignInPageOrchestrator({this.errorOverride});
 
   @override
   State<_SignInPageOrchestrator> createState() => _SignInPageOrchestratorState();
@@ -55,6 +59,8 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
 
   @override
   Widget build(BuildContext context) {
+    final initialError = widget.errorOverride;
+
     return BlocListener<SignInCubit, SignInState>(
       listener: (context, state) {
         if (state.status == SignInStatus.success) {
@@ -130,6 +136,21 @@ class _SignInPageOrchestratorState extends State<_SignInPageOrchestrator> {
                       ),
                     ),
                     const SizedBox(height: 32),
+
+                    if (initialError != null) ...[
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEE2E2),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          initialError,
+                          style: const TextStyle(color: Color(0xFF991B1B), fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
 
                     // Login Credentials Card
                     Container(

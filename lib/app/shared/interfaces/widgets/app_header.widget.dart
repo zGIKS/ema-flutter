@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppHeaderWidget extends StatelessWidget {
-  const AppHeaderWidget({super.key});
+  final VoidCallback? onProfileTap;
+
+  const AppHeaderWidget({super.key, this.onProfileTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +37,25 @@ class AppHeaderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFD1D5DB), width: 2),
-                color: const Color(0xFFF3F4F6),
-              ),
-              child: const Icon(
-                Icons.person,
-                color: Color(0xFF6B7280),
-                size: 28,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(999),
+                onTap: onProfileTap,
+                child: Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFD1D5DB), width: 2),
+                    color: const Color(0xFFF3F4F6),
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    color: Color(0xFF6B7280),
+                    size: 28,
+                  ),
+                ),
               ),
             ),
           ],

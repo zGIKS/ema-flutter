@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../iam/interfaces/pages/account/account.screen.dart';
 import '../../iam/interfaces/pages/create_user/create_user.screen.dart';
 import '../../identity/interfaces/pages/person_profile/person_profile.screen.dart';
 import '../../identity/interfaces/pages/register_person/register_person.screen.dart';
@@ -22,6 +23,14 @@ class AppRouter {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const RegisterPersonScreen(),
+      ),
+    );
+  }
+
+  static Future<void> openAccount(BuildContext context) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const AccountScreen(),
       ),
     );
   }

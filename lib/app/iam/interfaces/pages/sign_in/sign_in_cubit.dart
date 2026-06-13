@@ -36,7 +36,7 @@ class SignInCubit extends Cubit<SignInState> {
       final response = await commandService.handleSignIn(command);
       
       // Save session info
-      SessionManager.saveSession(
+      await SessionManager.saveSession(
         token: response.accessToken,
         username: response.username,
         userId: response.userId,

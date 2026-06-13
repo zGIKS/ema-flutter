@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'app/iam/interfaces/pages/sign_in/sign_in.screen.dart';
+import 'app/iam/application/internal/session_manager.dart';
+import 'app/iam/interfaces/pages/session_bootstrap/session_bootstrap.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,6 +10,7 @@ void main() async {
   } catch (e) {
     // If .env is missing, ignore or log it
   }
+  await SessionManager.loadPersistedSession();
   runApp(const MyApp());
 }
 
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         );
       },
-      home: const SignInScreen(),
+      home: const SessionBootstrapScreen(),
     );
   }
 }
