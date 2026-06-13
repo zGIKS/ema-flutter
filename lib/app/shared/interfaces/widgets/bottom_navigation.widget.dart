@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../iam/application/internal/session_manager.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
   final int selectedIndex;
@@ -12,12 +13,18 @@ class BottomNavigationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = <_EmaBottomNavigationItem>[
-      const _EmaBottomNavigationItem(label: 'Users', icon: Icons.people),
-      const _EmaBottomNavigationItem(label: 'Identify', icon: Icons.face_retouching_natural),
-      const _EmaBottomNavigationItem(label: 'People', icon: Icons.person),
-      const _EmaBottomNavigationItem(label: 'History', icon: Icons.history),
-    ];
+    final isAdmin = SessionManager.isAdmin;
+    final items = isAdmin
+        ? const <_EmaBottomNavigationItem>[
+            _EmaBottomNavigationItem(label: 'Users', icon: Icons.people),
+            _EmaBottomNavigationItem(label: 'Identify', icon: Icons.face_retouching_natural),
+            _EmaBottomNavigationItem(label: 'People', icon: Icons.person),
+            _EmaBottomNavigationItem(label: 'History', icon: Icons.history),
+          ]
+        : const <_EmaBottomNavigationItem>[
+            _EmaBottomNavigationItem(label: 'Identify', icon: Icons.face_retouching_natural),
+            _EmaBottomNavigationItem(label: 'History', icon: Icons.history),
+          ];
 
     return SafeArea(
       top: false,

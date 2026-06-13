@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../iam/application/internal/session_manager.dart';
 
 import '../rest/resources/identification_response.resource.dart';
 
@@ -113,19 +114,21 @@ class IdentifyPersonResultCardWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: onViewProfile,
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFFD1D5DB)),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          if (SessionManager.isAdmin) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onViewProfile,
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFFD1D5DB)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                icon: const Icon(Icons.badge_outlined, size: 18),
+                label: const Text('View Profile'),
               ),
-              icon: const Icon(Icons.badge_outlined, size: 18),
-              label: const Text('View Profile'),
             ),
-          ),
+          ],
         ],
       ),
     );

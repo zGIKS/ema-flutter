@@ -40,6 +40,7 @@ class SignInCubit extends Cubit<SignInState> {
         token: response.accessToken,
         username: response.username,
         userId: response.userId,
+        role: response.role,
       );
 
       emit(
