@@ -1,29 +1,30 @@
-import 'package:ema/contexts/identification/interfaces/pages/identification_shell.screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'app/core/theme/app_theme.dart';
+import 'app/iam/application/internal/session_manager.dart';
+import 'app/iam/interfaces/pages/verify/verify.screen.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await dotenv.load(fileName: '.env');
-  } catch (_) {
-    // Allow running without .env (tests / fresh clone); fallback is handled in UI.
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    // If .env is missing, ignore or log it
   }
-  runApp(const EmaApp());
+  await SessionManager.loadPersistedSession();
+  runApp(const MyApp());
 }
 
-class EmaApp extends StatelessWidget {
-  const EmaApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EMA',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const IdentificationShellScreen(),
+      title: 'Ema',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      home: const VerifyScreen(),
     );
   }
 }

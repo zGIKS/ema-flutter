@@ -1,0 +1,51 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/network/app_dio.dart';
+import '../../../application/internal/queryservices/person_directory_query_service_impl.dart';
+import '../../../interfaces/rest/transform/identity_transform.dart';
+import 'registered_persons_state.dart';
+
+class RegisteredPersonsCubit extends Cubit<RegisteredPersonsState> {
+  final PersonDirectoryQueryServiceImpl queryService;
+
+  RegisteredPersonsCubit({required this.queryService}) : super(const RegisteredPersonsState());
+
+  Future<void> loadPersons({
+    int page = 1,
+    int pageSize = 20,
+    String? search,
+    String? dni,
+    bool clearPage = true,
+  }) async {
+    emit(
+      state.copyWith(
+        status: RegisteredPersonsStatus.loading,
+        page: clearPage ? null : state.page,
+        errorMessage: null,
+      ),
+    );
+
+    try {
+      final query = toGetRegisteredPersonsQuery(
+        page: page,
+        pageSize: pageSize,
+        search: search,
+        dni: dni,
+      );
+      final response = await queryService.handleGetRegisteredPersons(query);
+      emit(
+        state.copyWith(
+          status: response.items.isEmpty ? RegisteredPersonsStatus.empty : RegisteredPersonsStatus.success,
+          page: response,
+          errorMessage: null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: RegisteredPersonsStatus.failure,
+          errorMessage: readFriendlyErrorMessage(e, fallbackMessage: 'Unable to load registered persons'),
+        ),
+      );
+    }
+  }
+}
