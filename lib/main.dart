@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app/iam/application/internal/session_manager.dart';
-import 'app/iam/interfaces/pages/session_bootstrap/session_bootstrap.screen.dart';
+import 'app/iam/interfaces/pages/verify/verify.screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         );
       },
-      home: const SessionBootstrapScreen(),
+      home: const VerifyScreen(),
     );
   }
 }

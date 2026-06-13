@@ -7,14 +7,14 @@ import '../../../infrastructure/api/gateways/iam.gateway.dart';
 import '../../../../shared/interfaces/widgets/app_shell.widget.dart';
 import '../sign_in/sign_in.screen.dart';
 
-class SessionBootstrapScreen extends StatefulWidget {
-  const SessionBootstrapScreen({super.key});
+class VerifyScreen extends StatefulWidget {
+  const VerifyScreen({super.key});
 
   @override
-  State<SessionBootstrapScreen> createState() => _SessionBootstrapScreenState();
+  State<VerifyScreen> createState() => _VerifyScreenState();
 }
 
-class _SessionBootstrapScreenState extends State<SessionBootstrapScreen> {
+class _VerifyScreenState extends State<VerifyScreen> {
   bool _isBootstrapping = true;
   String? _errorMessage;
 
